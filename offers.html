@@ -30,6 +30,13 @@
       text-decoration: none;
       color: #007bff;
     }
+    .filter-container {
+      padding: 1rem 2rem;
+    }
+    .filter-container select {
+      padding: 0.5rem;
+      font-size: 1rem;
+    }
   </style>
 </head>
 <body>
@@ -37,96 +44,66 @@
     <h1>Sign-Up Offers</h1>
   </header>
 
+  <div class="filter-container">
+    <label for="sort">Sort by: </label>
+    <select id="sort" onchange="sortOffers()">
+      <option value="default">Default</option>
+      <option value="high-to-low">Highest to Lowest</option>
+      <option value="low-to-high">Lowest to Highest</option>
+    </select>
+  </div>
+
   <main>
-    <div class="offers-container">
-      <div class="offer-card">
-        <h3><a href="#">Bet365 – Bet £10 Get £30</a></h3>
-      </div>
-      <div class="offer-card">
-        <h3><a href="#">Sky Bet – Bet £5 Get £40</a></h3>
-      </div>
-      <div class="offer-card">
-        <h3><a href="#">William Hill – Bet £10 Get £30</a></h3>
-      </div>
-      <div class="offer-card">
-        <h3><a href="#">Ladbrokes – Bet £5 Get £20</a></h3>
-      </div>
-      <div class="offer-card">
-        <h3><a href="#">Coral – Bet £5 Get £20</a></h3>
-      </div>
-      <div class="offer-card">
-        <h3><a href="#">Paddy Power – Bet £10 Get £20</a></h3>
-      </div>
-      <div class="offer-card">
-        <h3><a href="#">Betfair Sportsbook – Bet £10 Get £30</a></h3>
-      </div>
-      <div class="offer-card">
-        <h3><a href="#">Unibet – Bet £40 Get £30</a></h3>
-      </div>
-      <div class="offer-card">
-        <h3><a href="#">Betfred – Bet £10 Get £50</a></h3>
-      </div>
-      <div class="offer-card">
-        <h3><a href="#">Virgin Bet – Bet £10 Get £20</a></h3>
-      </div>
-      <div class="offer-card">
-        <h3><a href="#">Parimatch – Bet £10 Get £40 + £10 Slots</a></h3>
-      </div>
-      <div class="offer-card">
-        <h3><a href="#">LiveScore Bet – Bet £10 Get £20</a></h3>
-      </div>
-      <div class="offer-card">
-        <h3><a href="#">Tote – Bet £10 Get £30 + 20 Spins</a></h3>
-      </div>
-      <div class="offer-card">
-        <h3><a href="#">BetGoodwin – Bet £10 Get £10</a></h3>
-      </div>
-      <div class="offer-card">
-        <h3><a href="#">Spreadex – Bet £10 Get £60</a></h3>
-      </div>
-      <div class="offer-card">
-        <h3><a href="#">BetMGM – Bet £10 Get £40</a></h3>
-      </div>
-      <div class="offer-card">
-        <h3><a href="#">SBK – Bet £10 Get £30</a></h3>
-      </div>
-      <div class="offer-card">
-        <h3><a href="#">BetBright – Bet £10 Get £30</a></h3>
-      </div>
-      <div class="offer-card">
-        <h3><a href="#">BetBull – Bet £10 Get £20</a></h3>
-      </div>
-      <div class="offer-card">
-        <h3><a href="#">Betdaq – Bet £10 Get £10</a></h3>
-      </div>
-      <div class="offer-card">
-        <h3><a href="#">CopyBet – Bet £10 Get £30</a></h3>
-      </div>
-      <div class="offer-card">
-        <h3><a href="#">BetUK – Bet £10 Get £30</a></h3>
-      </div>
-      <div class="offer-card">
-        <h3><a href="#">Hollywoodbets – Bet £10 Get £20</a></h3>
-      </div>
-      <div class="offer-card">
-        <h3><a href="#">DAZN Bet – Bet £10 Get £10</a></h3>
-      </div>
-      <div class="offer-card">
-        <h3><a href="#">JeffBet – Bet £10 Get £30</a></h3>
-      </div>
-      <div class="offer-card">
-        <h3><a href="#">10bet – Bet £15 Get £30</a></h3>
-      </div>
-      <div class="offer-card">
-        <h3><a href="#">Betano – Bet £10 Get £20</a></h3>
-      </div>
-      <div class="offer-card">
-        <h3><a href="#">Tangobet – Bet £10 Get £20</a></h3>
-      </div>
-      <div class="offer-card">
-        <h3><a href="#">7Bet – Bet £10 Get £10</a></h3>
-      </div>
+    <div id="offers" class="offers-container">
+      <div class="offer-card" data-value="30"><h3><a href="#">Bet365 – Bet £10 Get £30</a></h3></div>
+      <div class="offer-card" data-value="40"><h3><a href="#">Sky Bet – Bet £5 Get £40</a></h3></div>
+      <div class="offer-card" data-value="30"><h3><a href="#">William Hill – Bet £10 Get £30</a></h3></div>
+      <div class="offer-card" data-value="20"><h3><a href="#">Ladbrokes – Bet £5 Get £20</a></h3></div>
+      <div class="offer-card" data-value="20"><h3><a href="#">Coral – Bet £5 Get £20</a></h3></div>
+      <div class="offer-card" data-value="20"><h3><a href="#">Paddy Power – Bet £10 Get £20</a></h3></div>
+      <div class="offer-card" data-value="30"><h3><a href="#">Betfair Sportsbook – Bet £10 Get £30</a></h3></div>
+      <div class="offer-card" data-value="30"><h3><a href="#">Unibet – Bet £40 Get £30</a></h3></div>
+      <div class="offer-card" data-value="50"><h3><a href="#">Betfred – Bet £10 Get £50</a></h3></div>
+      <div class="offer-card" data-value="20"><h3><a href="#">Virgin Bet – Bet £10 Get £20</a></h3></div>
+      <div class="offer-card" data-value="50"><h3><a href="#">Parimatch – Bet £10 Get £40 + £10 Slots</a></h3></div>
+      <div class="offer-card" data-value="20"><h3><a href="#">LiveScore Bet – Bet £10 Get £20</a></h3></div>
+      <div class="offer-card" data-value="30"><h3><a href="#">Tote – Bet £10 Get £30 + 20 Spins</a></h3></div>
+      <div class="offer-card" data-value="10"><h3><a href="#">BetGoodwin – Bet £10 Get £10</a></h3></div>
+      <div class="offer-card" data-value="60"><h3><a href="#">Spreadex – Bet £10 Get £60</a></h3></div>
+      <div class="offer-card" data-value="40"><h3><a href="#">BetMGM – Bet £10 Get £40</a></h3></div>
+      <div class="offer-card" data-value="30"><h3><a href="#">SBK – Bet £10 Get £30</a></h3></div>
+      <div class="offer-card" data-value="30"><h3><a href="#">BetBright – Bet £10 Get £30</a></h3></div>
+      <div class="offer-card" data-value="20"><h3><a href="#">BetBull – Bet £10 Get £20</a></h3></div>
+      <div class="offer-card" data-value="10"><h3><a href="#">Betdaq – Bet £10 Get £10</a></h3></div>
+      <div class="offer-card" data-value="30"><h3><a href="#">CopyBet – Bet £10 Get £30</a></h3></div>
+      <div class="offer-card" data-value="30"><h3><a href="#">BetUK – Bet £10 Get £30</a></h3></div>
+      <div class="offer-card" data-value="20"><h3><a href="#">Hollywoodbets – Bet £10 Get £20</a></h3></div>
+      <div class="offer-card" data-value="10"><h3><a href="#">DAZN Bet – Bet £10 Get £10</a></h3></div>
+      <div class="offer-card" data-value="30"><h3><a href="#">JeffBet – Bet £10 Get £30</a></h3></div>
+      <div class="offer-card" data-value="30"><h3><a href="#">10bet – Bet £15 Get £30</a></h3></div>
+      <div class="offer-card" data-value="30"><h3><a href="#">Betano – Bet £10 Get £30</a></h3></div>
+      <div class="offer-card" data-value="20"><h3><a href="#">Tangobet – Bet £20 Get £20</a></h3></div>
+      <div class="offer-card" data-value="10"><h3><a href="#">7Bet – Bet £10 Get £10</a></h3></div>
     </div>
   </main>
+
+  <script>
+    function sortOffers() {
+      const container = document.getElementById('offers');
+      const cards = Array.from(container.getElementsByClassName('offer-card'));
+      const sort = document.getElementById('sort').value;
+
+      if (sort === 'high-to-low') {
+        cards.sort((a, b) => +b.dataset.value - +a.dataset.value);
+      } else if (sort === 'low-to-high') {
+        cards.sort((a, b) => +a.dataset.value - +b.dataset.value);
+      } else {
+        return; // default
+      }
+
+      container.innerHTML = '';
+      cards.forEach(card => container.appendChild(card));
+    }
+  </script>
 </body>
 </html>
