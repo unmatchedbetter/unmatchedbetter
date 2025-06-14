@@ -50,7 +50,7 @@
 
     main {
       padding: 2rem;
-      max-width: 900px;
+      max-width: 1000px;
       margin: auto;
       background: white;
       border-radius: 10px;
@@ -63,11 +63,21 @@
       margin-bottom: 1rem;
     }
 
+    .filter-bar {
+      text-align: right;
+      margin-bottom: 1rem;
+    }
+
+    select {
+      padding: 0.5rem;
+      border-radius: 5px;
+      border: 1px solid #ccc;
+    }
+
     .offers-grid {
       display: grid;
       grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
       gap: 1.5rem;
-      margin-top: 2rem;
     }
 
     .offer-card {
@@ -115,34 +125,71 @@
 
   <main>
     <h2>Welcome Offers</h2>
-    <div class="offers-grid">
-      <div class="offer-card"><h3>Bet365</h3><p>Bet £10 get £30 in free bets</p><a href="#">Claim Offer</a></div>
-      <div class="offer-card"><h3>William Hill</h3><p>Bet £10 get £30 in free bets</p><a href="#">Claim Offer</a></div>
-      <div class="offer-card"><h3>Sky Bet</h3><p>£20 in free bets when you bet £5</p><a href="#">Claim Offer</a></div>
-      <div class="offer-card"><h3>Paddy Power</h3><p>£20 risk-free first bet</p><a href="#">Claim Offer</a></div>
-      <div class="offer-card"><h3>Betfair</h3><p>£30 in free bets when you bet £10</p><a href="#">Claim Offer</a></div>
-      <div class="offer-card"><h3>Betfred</h3><p>Bet £10 get £40 in bonuses</p><a href="#">Claim Offer</a></div>
-      <div class="offer-card"><h3>Coral</h3><p>Bet £5 get £20</p><a href="#">Claim Offer</a></div>
-      <div class="offer-card"><h3>Ladbrokes</h3><p>Bet £5 get £20 in free bets</p><a href="#">Claim Offer</a></div>
-      <div class="offer-card"><h3>Unibet</h3><p>Money back up to £40 if your first bet loses</p><a href="#">Claim Offer</a></div>
-      <div class="offer-card"><h3>Virgin Bet</h3><p>Bet £10 get £20</p><a href="#">Claim Offer</a></div>
-      <div class="offer-card"><h3>888sport</h3><p>Bet £10 get £30 in free bets + £10 casino bonus</p><a href="#">Claim Offer</a></div>
-      <div class="offer-card"><h3>QuinnBet</h3><p>Get 50% back as a free bet up to £35</p><a href="#">Claim Offer</a></div>
-      <div class="offer-card"><h3>LiveScore Bet</h3><p>Bet £10 get £20 in free bets</p><a href="#">Claim Offer</a></div>
-      <div class="offer-card"><h3>BoyleSports</h3><p>Bet £10 get £20 in free bets</p><a href="#">Claim Offer</a></div>
-      <div class="offer-card"><h3>Betway</h3><p>£30 matched free bet if your first bet loses</p><a href="#">Claim Offer</a></div>
-      <div class="offer-card"><h3>BetUK</h3><p>Bet £10 get £30</p><a href="#">Claim Offer</a></div>
-      <div class="offer-card"><h3>Mr Green</h3><p>Bet £10 get £10 free bet + 50 free spins</p><a href="#">Claim Offer</a></div>
-      <div class="offer-card"><h3>Sporting Index</h3><p>£75 in free bets</p><a href="#">Claim Offer</a></div>
-      <div class="offer-card"><h3>Midnite</h3><p>Bet £10 get £20</p><a href="#">Claim Offer</a></div>
-      <div class="offer-card"><h3>Betgoodwin</h3><p>100% deposit bonus up to £25</p><a href="#">Claim Offer</a></div>
-      <div class="offer-card"><h3>TalkSport Bet</h3><p>Bet £10 get £20</p><a href="#">Claim Offer</a></div>
-      <div class="offer-card"><h3>Betzone</h3><p>£60 in free bets</p><a href="#">Claim Offer</a></div>
-      <div class="offer-card"><h3>Kwiff</h3><p>Bet £10 get £30 in free bets</p><a href="#">Claim Offer</a></div>
-      <div class="offer-card"><h3>BetVictor</h3><p>Bet £5 get £30</p><a href="#">Claim Offer</a></div>
-      <div class="offer-card"><h3>Parimatch</h3><p>Bet £5 get £30</p><a href="#">Claim Offer</a></div>
-      <div class="offer-card"><h3>BetMGM</h3><p>Bet £10 get £40 in free bets</p><a href="#">Claim Offer</a></div>
+
+    <div class="filter-bar">
+      <label for="sort">Sort by value: </label>
+      <select id="sort" onchange="sortOffers()">
+        <option value="desc">Highest to Lowest</option>
+        <option value="asc">Lowest to Highest</option>
+      </select>
+    </div>
+
+    <div class="offers-grid" id="offersContainer">
+      <!-- Offers will be dynamically inserted here -->
     </div>
   </main>
+
+  <script>
+    const offers = [
+      { name: "Bet365", value: 30, text: "Bet £10 get £30 in free bets" },
+      { name: "William Hill", value: 30, text: "Bet £10 get £30 in free bets" },
+      { name: "Sky Bet", value: 20, text: "£20 in free bets when you bet £5" },
+      { name: "Paddy Power", value: 20, text: "£20 risk-free first bet" },
+      { name: "Betfair", value: 30, text: "£30 in free bets when you bet £10" },
+      { name: "Betfred", value: 40, text: "Bet £10 get £40 in bonuses" },
+      { name: "Coral", value: 20, text: "Bet £5 get £20" },
+      { name: "Ladbrokes", value: 20, text: "Bet £5 get £20 in free bets" },
+      { name: "Unibet", value: 40, text: "Money back up to £40 if your first bet loses" },
+      { name: "Virgin Bet", value: 20, text: "Bet £10 get £20" },
+      { name: "888sport", value: 40, text: "Bet £10 get £30 in free bets + £10 casino bonus" },
+      { name: "QuinnBet", value: 35, text: "Get 50% back as a free bet up to £35" },
+      { name: "LiveScore Bet", value: 20, text: "Bet £10 get £20 in free bets" },
+      { name: "BoyleSports", value: 20, text: "Bet £10 get £20 in free bets" },
+      { name: "Betway", value: 30, text: "£30 matched free bet if your first bet loses" },
+      { name: "BetUK", value: 30, text: "Bet £10 get £30" },
+      { name: "Mr Green", value: 20, text: "Bet £10 get £10 free bet + 50 free spins" },
+      { name: "Sporting Index", value: 75, text: "£75 in free bets" },
+      { name: "Midnite", value: 20, text: "Bet £10 get £20" },
+      { name: "Betgoodwin", value: 25, text: "100% deposit bonus up to £25" },
+      { name: "TalkSport Bet", value: 20, text: "Bet £10 get £20" },
+      { name: "Betzone", value: 60, text: "£60 in free bets" },
+      { name: "Kwiff", value: 30, text: "Bet £10 get £30 in free bets" },
+      { name: "BetVictor", value: 30, text: "Bet £5 get £30" },
+      { name: "Parimatch", value: 30, text: "Bet £5 get £30" },
+      { name: "BetMGM", value: 40, text: "Bet £10 get £40 in free bets" }
+    ];
+
+    function renderOffers(sortedOffers) {
+      const container = document.getElementById("offersContainer");
+      container.innerHTML = '';
+      sortedOffers.forEach(offer => {
+        const card = document.createElement("div");
+        card.className = "offer-card";
+        card.innerHTML = `<h3>${offer.name}</h3><p>${offer.text}</p><a href="#">Claim Offer</a>`;
+        container.appendChild(card);
+      });
+    }
+
+    function sortOffers() {
+      const sort = document.getElementById("sort").value;
+      const sorted = [...offers].sort((a, b) =>
+        sort === "asc" ? a.value - b.value : b.value - a.value
+      );
+      renderOffers(sorted);
+    }
+
+    // Initial render
+    sortOffers();
+  </script>
 </body>
 </html>
