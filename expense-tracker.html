@@ -7,10 +7,9 @@
   <link rel="stylesheet" href="style.css" />
   <style>
     body {
+      margin: 0;
       font-family: Arial, sans-serif;
       background: #f4f4f4;
-      margin: 0;
-      padding: 0;
     }
 
     header {
@@ -50,50 +49,52 @@
     }
 
     main {
-      max-width: 1000px;
-      margin: 2rem auto;
       padding: 2rem;
+      max-width: 1000px;
+      margin: auto;
       background: white;
       border-radius: 10px;
-      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+      margin-top: 2rem;
     }
 
     h2 {
-      margin-top: 0;
       text-align: center;
+      margin-bottom: 1rem;
     }
 
     form {
       margin-bottom: 2rem;
       padding: 1rem;
-      border: 1px solid #ccc;
+      background: #f9f9f9;
       border-radius: 6px;
-      background: #fafafa;
+      border: 1px solid #ddd;
     }
 
     label {
       display: block;
-      margin: 0.5rem 0 0.2rem;
+      margin-top: 0.5rem;
     }
 
-    input {
-      padding: 0.4rem;
+    input, select {
+      padding: 0.5rem;
+      margin-top: 0.3rem;
       width: 100%;
       box-sizing: border-box;
-      margin-bottom: 0.5rem;
     }
 
     button {
-      background: #007bff;
-      color: white;
+      margin-top: 1rem;
       padding: 0.5rem 1rem;
+      background-color: #007BFF;
+      color: white;
       border: none;
-      cursor: pointer;
       border-radius: 4px;
+      cursor: pointer;
     }
 
     button:hover {
-      background: #0056b3;
+      background-color: #0056b3;
     }
 
     table {
@@ -103,23 +104,23 @@
     }
 
     th, td {
-      border: 1px solid #ddd;
+      border: 1px solid #ccc;
       padding: 0.5rem;
-      text-align: left;
+      text-align: center;
     }
 
     th {
-      background: #f0f0f0;
+      background-color: #f2f2f2;
     }
   </style>
-</head>
-<body>
   <script>
+    // Redirect if not logged in
     if (localStorage.getItem('loggedIn') !== 'true') {
       window.location.href = 'login.html';
     }
   </script>
-
+</head>
+<body>
   <header>
     <div class="navbar">
       <h1>Unmatched Better</h1>
@@ -138,119 +139,184 @@
   </header>
 
   <main>
-    <h2>Expense Tracker</h2>
+    <h2>Track Your Offers</h2>
 
-    <!-- Sign-up form -->
+    <!-- Sign Up Form -->
     <form id="signupForm">
-      <h3>Log a Sign Up</h3>
-      <label>Offer Name</label>
+      <h3>Log Sign-Up</h3>
+      <label for="signupOffer">Offer Name</label>
       <input type="text" id="signupOffer" required />
-      <button type="submit">Log Sign Up</button>
+      <button type="submit">Add Sign-Up</button>
     </form>
 
-    <!-- Deposit form -->
+    <!-- Deposit Form -->
     <form id="depositForm">
-      <h3>Log a Deposit</h3>
-      <label>Bookmaker</label>
-      <input type="text" id="depositBookie" required />
-      <label>Deposit Amount (£)</label>
-      <input type="number" id="depositAmount" step="0.01" required />
-      <button type="submit">Log Deposit</button>
+      <h3>Log Deposit</h3>
+      <label for="depositOffer">Offer Name</label>
+      <input type="text" id="depositOffer" required />
+      <label for="depositAmount">Deposit Amount (£)</label>
+      <input type="number" id="depositAmount" required step="0.01" />
+      <button type="submit">Add Deposit</button>
     </form>
 
-    <!-- Qualifying bet form -->
+    <!-- Qualifying Bet Form -->
     <form id="qualForm">
-      <h3>Log a Qualifying Bet</h3>
-      <label>Offer Name</label>
+      <h3>Log Qualifying Bet</h3>
+      <label for="qualOffer">Offer Name</label>
       <input type="text" id="qualOffer" required />
-      <label>Back Amount (£)</label>
-      <input type="number" id="backAmount" step="0.01" required />
-      <label>Lay Amount (£)</label>
-      <input type="number" id="layAmount" step="0.01" required />
-      <label>Liability (£)</label>
-      <input type="number" id="liability" step="0.01" required />
-      <button type="submit">Log Qualifying Bet</button>
+      <label for="backStake">Back Stake (£)</label>
+      <input type="number" id="backStake" step="0.01" />
+      <label for="layStake">Lay Stake (£)</label>
+      <input type="number" id="layStake" required step="0.01" />
+      <label for="liability">Liability (£)</label>
+      <input type="number" id="liability" required step="0.01" />
+      <button type="submit">Add Qualifying Bet</button>
     </form>
 
-    <!-- Free bet form -->
-    <form id="freeBetForm">
-      <h3>Log a Free Bet</h3>
-      <label>Free Bet Amount (£)</label>
-      <input type="number" id="freeBetAmount" step="0.01" required />
-      <label>Back Odds</label>
-      <input type="number" id="freeBackOdds" step="0.01" required />
-      <label>Lay Odds</label>
-      <input type="number" id="freeLayOdds" step="0.01" required />
-      <label>Liability (£)</label>
-      <input type="number" id="freeLiability" step="0.01" required />
-      <button type="submit">Log Free Bet</button>
+    <!-- Free Bet Form -->
+    <form id="freebetForm">
+      <h3>Log Free Bet</h3>
+      <label for="freebetOffer">Offer Name</label>
+      <input type="text" id="freebetOffer" required />
+      <label for="freeBetAmount">Free Bet Amount (£)</label>
+      <input type="number" id="freeBetAmount" required step="0.01" />
+      <label for="backOdds">Back Odds</label>
+      <input type="number" id="backOdds" required step="0.01" />
+      <label for="layOdds">Lay Odds</label>
+      <input type="number" id="layOdds" required step="0.01" />
+      <label for="freeLiability">Liability (£)</label>
+      <input type="number" id="freeLiability" required step="0.01" />
+      <button type="submit">Add Free Bet</button>
     </form>
 
-    <!-- Logged entries -->
-    <h3>Entries</h3>
-    <table id="logTable">
+    <!-- Table of entries -->
+    <table id="trackerTable">
       <thead>
         <tr>
           <th>Date</th>
+          <th>Offer</th>
           <th>Type</th>
-          <th>Description</th>
-          <th>P/L (£)</th>
+          <th>Amount</th>
+          <th>Liability</th>
+          <th>Profit/Loss</th>
         </tr>
       </thead>
-      <tbody id="logBody"></tbody>
+      <tbody></tbody>
     </table>
   </main>
 
-  <script>
-    const logBody = document.getElementById('logBody');
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.11.1/firebase-app.js";
+    import { getFirestore, collection, addDoc, onSnapshot } from "https://www.gstatic.com/firebasejs/10.11.1/firebase-firestore.js";
+    import { getAuth, signInAnonymously, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.11.1/firebase-auth.js";
 
-    function addLog(type, description, pl) {
-      const row = document.createElement('tr');
-      row.innerHTML = `
-        <td>${new Date().toLocaleDateString()}</td>
-        <td>${type}</td>
-        <td>${description}</td>
-        <td>${pl !== null ? pl.toFixed(2) : ''}</td>
-      `;
-      logBody.appendChild(row);
+    const firebaseConfig = {
+      apiKey: "AIzaSyD8CRdx5VonpgIivDelnm3H0O8YN8dc38c",
+      authDomain: "unmatchedbetter.firebaseapp.com",
+      projectId: "unmatchedbetter",
+      storageBucket: "unmatchedbetter.firebasestorage.app",
+      messagingSenderId: "706155797600",
+      appId: "1:706155797600:web:5fe4b5711b204beeddb705",
+      measurementId: "G-K3YTJHX1FD"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const db = getFirestore(app);
+    const auth = getAuth();
+
+    let userId = null;
+
+    signInAnonymously(auth);
+
+    onAuthStateChanged(auth, (user) => {
+      if (user) {
+        userId = user.uid;
+        listenForEntries();
+      }
+    });
+
+    function calcProfit(type, data) {
+      if (type === "Qualifying Bet") {
+        return -parseFloat(data.liability || 0);
+      }
+      if (type === "Free Bet") {
+        const backOdds = parseFloat(data.backOdds);
+        const layOdds = parseFloat(data.layOdds);
+        const stake = parseFloat(data.freeBetAmount);
+        const profit = (stake * (backOdds - 1) - stake * (layOdds - 1)) || 0;
+        return profit.toFixed(2);
+      }
+      return "";
     }
 
-    document.getElementById('signupForm').addEventListener('submit', function(e) {
+    function addEntry(type, data) {
+      if (!userId) return;
+      const docData = {
+        userId,
+        type,
+        offer: data.offer || "",
+        amount: data.amount || "",
+        liability: data.liability || "",
+        profit: calcProfit(type, data),
+        date: new Date().toISOString().split('T')[0]
+      };
+      addDoc(collection(db, "expenses"), docData);
+    }
+
+    function listenForEntries() {
+      const tbody = document.querySelector("#trackerTable tbody");
+      onSnapshot(collection(db, "expenses"), (snapshot) => {
+        tbody.innerHTML = "";
+        snapshot.docs.forEach((doc) => {
+          const data = doc.data();
+          if (data.userId === userId) {
+            const row = document.createElement("tr");
+            row.innerHTML = `
+              <td>${data.date}</td>
+              <td>${data.offer}</td>
+              <td>${data.type}</td>
+              <td>£${data.amount || "-"}</td>
+              <td>£${data.liability || "-"}</td>
+              <td>${data.profit ? `£${data.profit}` : "-"}</td>
+            `;
+            tbody.appendChild(row);
+          }
+        });
+      });
+    }
+
+    document.getElementById("signupForm").addEventListener("submit", (e) => {
       e.preventDefault();
-      const offer = document.getElementById('signupOffer').value;
-      addLog('Sign Up', `Signed up for ${offer}`, null);
-      this.reset();
+      addEntry("Sign Up", { offer: signupOffer.value });
+      e.target.reset();
     });
 
-    document.getElementById('depositForm').addEventListener('submit', function(e) {
+    document.getElementById("depositForm").addEventListener("submit", (e) => {
       e.preventDefault();
-      const bookie = document.getElementById('depositBookie').value;
-      const amount = parseFloat(document.getElementById('depositAmount').value);
-      addLog('Deposit', `Deposited £${amount.toFixed(2)} to ${bookie}`, -amount);
-      this.reset();
+      addEntry("Deposit", { offer: depositOffer.value, amount: depositAmount.value });
+      e.target.reset();
     });
 
-    document.getElementById('qualForm').addEventListener('submit', function(e) {
+    document.getElementById("qualForm").addEventListener("submit", (e) => {
       e.preventDefault();
-      const offer = document.getElementById('qualOffer').value;
-      const back = parseFloat(document.getElementById('backAmount').value);
-      const lay = parseFloat(document.getElementById('layAmount').value);
-      const liability = parseFloat(document.getElementById('liability').value);
-      const expectedLoss = back - lay - liability;
-      addLog('Qualifying Bet', `${offer} - Back £${back}, Lay £${lay}`, expectedLoss);
-      this.reset();
+      addEntry("Qualifying Bet", {
+        offer: qualOffer.value,
+        amount: backStake.value,
+        liability: liability.value
+      });
+      e.target.reset();
     });
 
-    document.getElementById('freeBetForm').addEventListener('submit', function(e) {
+    document.getElementById("freebetForm").addEventListener("submit", (e) => {
       e.preventDefault();
-      const amt = parseFloat(document.getElementById('freeBetAmount').value);
-      const back = parseFloat(document.getElementById('freeBackOdds').value);
-      const lay = parseFloat(document.getElementById('freeLayOdds').value);
-      const liability = parseFloat(document.getElementById('freeLiability').value);
-
-      const profit = (amt * (back - 1)) - (lay * lay / (lay - 1)) - liability;
-      addLog('Free Bet', `Free bet of £${amt} at ${back}/${lay}`, profit);
-      this.reset();
+      addEntry("Free Bet", {
+        offer: freebetOffer.value,
+        freeBetAmount: freeBetAmount.value,
+        backOdds: backOdds.value,
+        layOdds: layOdds.value,
+        liability: freeLiability.value
+      });
+      e.target.reset();
     });
   </script>
 </body>
