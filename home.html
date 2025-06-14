@@ -1,48 +1,108 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" /><meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Home | Unmatched Better</title>
-  <link rel="stylesheet" href="style.css"/>
-  <script type="module">
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
-    import { getAuth, signInAnonymously, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+  <link rel="stylesheet" href="style.css" />
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: #f4f4f4;
+    }
 
-    const firebaseConfig = {
-      apiKey: "AIzaSyD8CRdx5VonpgIivDelnm3H0O8YN8dc38c",
-      authDomain: "unmatchedbetter.firebaseapp.com",
-      projectId: "unmatchedbetter",
-      storageBucket: "unmatchedbetter.firebasestorage.app",
-      messagingSenderId: "706155797600",
-      appId: "1:706155797600:web:5fe4b5711b204beeddb705",
-      measurementId: "G-K3YTJHX1FD"
-    };
+    header {
+      background-color: #222;
+      color: white;
+      padding: 1rem 2rem;
+    }
 
-    const app = initializeApp(firebaseConfig);
-    const auth = getAuth(app);
-    signInAnonymously(auth).catch(console.error);
+    .navbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+    }
 
-    onAuthStateChanged(auth, user => {
-      if (!user) window.location.href = "index.html";
-    });
-  </script>
+    .navbar h1 {
+      margin: 0;
+      font-size: 1.5rem;
+    }
+
+    nav ul {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      display: flex;
+      gap: 1rem;
+    }
+
+    nav ul li a {
+      color: white;
+      text-decoration: none;
+    }
+
+    nav ul li a.active,
+    nav ul li a:hover {
+      text-decoration: underline;
+    }
+
+    main {
+      padding: 2rem;
+      max-width: 800px;
+      margin: auto;
+      background: white;
+      border-radius: 10px;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+      margin-top: 2rem;
+    }
+
+    h2 {
+      text-align: center;
+      margin-bottom: 1.5rem;
+    }
+
+    p {
+      line-height: 1.6;
+    }
+  </style>
 </head>
 <body>
-  <header><div class="navbar">
-    <h1>Unmatched Better</h1>
-    <nav><ul>
-      <li><a href="home.html" class="active">Home</a></li>
-      <li><a href="how-it-works.html">How It Works</a></li>
-      <li><a href="calculator.html">Calculator</a></li>
-      <li><a href="offers.html">Offers</a></li>
-      <li><a href="faq.html">FAQs</a></li>
-      <li><a href="contact.html">Contact</a></li>
-      <li><a href="expense-tracker.html">Expense Tracker</a></li>
-    </ul></nav></div></header>
+  <script>
+    if (localStorage.getItem('loggedIn') !== 'true') {
+      window.location.href = 'login.html';
+    }
+  </script>
+
+  <header>
+    <div class="navbar">
+      <h1>Unmatched Better</h1>
+      <nav>
+        <ul>
+          <li><a href="home.html" class="active">Home</a></li>
+          <li><a href="how-it-works.html">How It Works</a></li>
+          <li><a href="calculator.html">Calculator</a></li>
+          <li><a href="offers.html">Offers</a></li>
+          <li><a href="faq.html">FAQs</a></li>
+          <li><a href="contact.html">Contact</a></li>
+          <li><a href="expense-tracker.html">Expense Tracker</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
 
   <main>
     <h2>Welcome to Unmatched Better</h2>
-    <p>Your matched betting dashboard is here—feel free to explore!</p>
+    <p>
+      Unmatched Better is your free and anonymous guide to making money from matched betting. We provide the tools, calculators, and up-to-date offers you need to extract risk-free profit from bookmaker promotions.
+    </p>
+    <p>
+      Whether you're new to matched betting or a seasoned veteran, we’re here to help you earn consistent income with ease. Start by checking out the welcome offers, using our calculators to get the best value, and tracking your profits in the Expense Tracker.
+    </p>
+    <p>
+      You're already logged in — let's get you profiting.
+    </p>
   </main>
 </body>
 </html>
