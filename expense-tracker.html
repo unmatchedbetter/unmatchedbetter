@@ -1,3 +1,9 @@
+<script>
+  // Redirect to login if not logged in
+  if (localStorage.getItem('loggedIn') !== 'true') {
+    window.location.href = 'login.html';
+  }
+</script>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -7,9 +13,9 @@
   <link rel="stylesheet" href="style.css" />
   <style>
     body {
-      margin: 0;
       font-family: Arial, sans-serif;
       background: #f4f4f4;
+      margin: 0;
     }
 
     header {
@@ -49,76 +55,69 @@
     }
 
     main {
-      padding: 2rem;
-      max-width: 1000px;
-      margin: auto;
+      max-width: 900px;
+      margin: 2rem auto;
       background: white;
-      border-radius: 10px;
-      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
-      margin-top: 2rem;
+      padding: 2rem;
+      border-radius: 8px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
     }
 
     h2 {
       text-align: center;
-      margin-bottom: 1rem;
     }
 
     form {
       margin-bottom: 2rem;
+      border: 1px solid #ccc;
       padding: 1rem;
-      background: #f9f9f9;
       border-radius: 6px;
-      border: 1px solid #ddd;
+      background: #fafafa;
     }
 
     label {
       display: block;
-      margin-top: 0.5rem;
+      margin: 0.5rem 0 0.2rem;
     }
 
-    input, select {
-      padding: 0.5rem;
-      margin-top: 0.3rem;
+    input {
       width: 100%;
-      box-sizing: border-box;
+      padding: 0.4rem;
+      margin-bottom: 0.8rem;
+      border-radius: 4px;
+      border: 1px solid #ccc;
     }
 
     button {
-      margin-top: 1rem;
-      padding: 0.5rem 1rem;
-      background-color: #007BFF;
+      background-color: #007bff;
       color: white;
+      padding: 0.6rem 1rem;
       border: none;
       border-radius: 4px;
       cursor: pointer;
     }
 
-    button:hover {
-      background-color: #0056b3;
-    }
-
     table {
       width: 100%;
       border-collapse: collapse;
-      margin-top: 2rem;
+      margin-top: 1rem;
+    }
+
+    table, th, td {
+      border: 1px solid #ccc;
     }
 
     th, td {
-      border: 1px solid #ccc;
       padding: 0.5rem;
       text-align: center;
     }
 
-    th {
-      background-color: #f2f2f2;
+    .summary {
+      margin-top: 1rem;
+      text-align: right;
+      font-weight: bold;
     }
   </style>
-  <script>
-    // Redirect if not logged in
-    if (localStorage.getItem('loggedIn') !== 'true') {
-      window.location.href = 'login.html';
-    }
-  </script>
 </head>
 <body>
   <header>
@@ -139,76 +138,58 @@
   </header>
 
   <main>
-    <h2>Track Your Offers</h2>
-
-    <!-- Sign Up Form -->
-    <form id="signupForm">
-      <h3>Log Sign-Up</h3>
-      <label for="signupOffer">Offer Name</label>
-      <input type="text" id="signupOffer" required />
-      <button type="submit">Add Sign-Up</button>
-    </form>
-
-    <!-- Deposit Form -->
-    <form id="depositForm">
-      <h3>Log Deposit</h3>
-      <label for="depositOffer">Offer Name</label>
-      <input type="text" id="depositOffer" required />
-      <label for="depositAmount">Deposit Amount (£)</label>
-      <input type="number" id="depositAmount" required step="0.01" />
-      <button type="submit">Add Deposit</button>
-    </form>
+    <h2>Expense Tracker</h2>
 
     <!-- Qualifying Bet Form -->
-    <form id="qualForm">
-      <h3>Log Qualifying Bet</h3>
-      <label for="qualOffer">Offer Name</label>
+    <form id="qualifyingForm">
+      <h3>Log a Qualifying Bet</h3>
+      <label>Offer Name</label>
       <input type="text" id="qualOffer" required />
-      <label for="backStake">Back Stake (£)</label>
-      <input type="number" id="backStake" step="0.01" />
-      <label for="layStake">Lay Stake (£)</label>
-      <input type="number" id="layStake" required step="0.01" />
-      <label for="liability">Liability (£)</label>
-      <input type="number" id="liability" required step="0.01" />
-      <button type="submit">Add Qualifying Bet</button>
+      <label>Back Amount</label>
+      <input type="number" id="qualBack" required />
+      <label>Lay Amount</label>
+      <input type="number" id="qualLay" required />
+      <label>Liability</label>
+      <input type="number" id="qualLiability" required />
+      <button type="submit">Log Qualifying Bet</button>
     </form>
 
     <!-- Free Bet Form -->
-    <form id="freebetForm">
-      <h3>Log Free Bet</h3>
-      <label for="freebetOffer">Offer Name</label>
-      <input type="text" id="freebetOffer" required />
-      <label for="freeBetAmount">Free Bet Amount (£)</label>
-      <input type="number" id="freeBetAmount" required step="0.01" />
-      <label for="backOdds">Back Odds</label>
-      <input type="number" id="backOdds" required step="0.01" />
-      <label for="layOdds">Lay Odds</label>
-      <input type="number" id="layOdds" required step="0.01" />
-      <label for="freeLiability">Liability (£)</label>
-      <input type="number" id="freeLiability" required step="0.01" />
-      <button type="submit">Add Free Bet</button>
+    <form id="freeForm">
+      <h3>Log a Free Bet</h3>
+      <label>Offer Name</label>
+      <input type="text" id="freeOffer" required />
+      <label>Free Bet Amount</label>
+      <input type="number" id="freeAmount" required />
+      <label>Back Odds</label>
+      <input type="number" id="freeBackOdds" required />
+      <label>Lay Odds</label>
+      <input type="number" id="freeLayOdds" required />
+      <label>Liability</label>
+      <input type="number" id="freeLiability" required />
+      <button type="submit">Log Free Bet</button>
     </form>
 
-    <!-- Table of entries -->
-    <table id="trackerTable">
+    <!-- Table -->
+    <table id="logTable">
       <thead>
         <tr>
           <th>Date</th>
           <th>Offer</th>
           <th>Type</th>
-          <th>Amount</th>
-          <th>Liability</th>
-          <th>Profit/Loss</th>
+          <th>Profit/Loss (£)</th>
         </tr>
       </thead>
       <tbody></tbody>
     </table>
+    <div class="summary" id="totalSummary">Total P/L: £0.00</div>
   </main>
 
+  <!-- Firebase SDK -->
   <script type="module">
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.11.1/firebase-app.js";
-    import { getFirestore, collection, addDoc, onSnapshot } from "https://www.gstatic.com/firebasejs/10.11.1/firebase-firestore.js";
-    import { getAuth, signInAnonymously, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.11.1/firebase-auth.js";
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+    import { getFirestore, collection, addDoc, getDocs, onSnapshot } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+    import { getAuth, signInAnonymously, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
 
     const firebaseConfig = {
       apiKey: "AIzaSyD8CRdx5VonpgIivDelnm3H0O8YN8dc38c",
@@ -224,97 +205,70 @@
     const db = getFirestore(app);
     const auth = getAuth();
 
-    let userId = null;
+    let userId;
 
-    signInAnonymously(auth);
-
-    onAuthStateChanged(auth, (user) => {
+    onAuthStateChanged(auth, user => {
       if (user) {
         userId = user.uid;
-        listenForEntries();
+        loadEntries();
+      } else {
+        signInAnonymously(auth);
       }
     });
 
-    function calcProfit(type, data) {
-      if (type === "Qualifying Bet") {
-        return -parseFloat(data.liability || 0);
-      }
-      if (type === "Free Bet") {
-        const backOdds = parseFloat(data.backOdds);
-        const layOdds = parseFloat(data.layOdds);
-        const stake = parseFloat(data.freeBetAmount);
-        const profit = (stake * (backOdds - 1) - stake * (layOdds - 1)) || 0;
-        return profit.toFixed(2);
-      }
-      return "";
-    }
-
-    function addEntry(type, data) {
-      if (!userId) return;
-      const docData = {
-        userId,
-        type,
-        offer: data.offer || "",
-        amount: data.amount || "",
-        liability: data.liability || "",
-        profit: calcProfit(type, data),
-        date: new Date().toISOString().split('T')[0]
-      };
-      addDoc(collection(db, "expenses"), docData);
-    }
-
-    function listenForEntries() {
-      const tbody = document.querySelector("#trackerTable tbody");
-      onSnapshot(collection(db, "expenses"), (snapshot) => {
-        tbody.innerHTML = "";
-        snapshot.docs.forEach((doc) => {
+    async function loadEntries() {
+      const q = collection(db, "expenses", userId, "entries");
+      onSnapshot(q, snapshot => {
+        const table = document.querySelector("#logTable tbody");
+        table.innerHTML = "";
+        let total = 0;
+        snapshot.forEach(doc => {
           const data = doc.data();
-          if (data.userId === userId) {
-            const row = document.createElement("tr");
-            row.innerHTML = `
-              <td>${data.date}</td>
-              <td>${data.offer}</td>
-              <td>${data.type}</td>
-              <td>£${data.amount || "-"}</td>
-              <td>£${data.liability || "-"}</td>
-              <td>${data.profit ? `£${data.profit}` : "-"}</td>
-            `;
-            tbody.appendChild(row);
-          }
+          const row = document.createElement("tr");
+          row.innerHTML = `
+            <td>${new Date(data.date).toLocaleDateString()}</td>
+            <td>${data.offer}</td>
+            <td>${data.type}</td>
+            <td>${data.pl >= 0 ? "+" : ""}${data.pl.toFixed(2)}</td>
+          `;
+          total += data.pl;
+          table.appendChild(row);
         });
+        document.getElementById("totalSummary").textContent = `Total P/L: £${total.toFixed(2)}`;
       });
     }
 
-    document.getElementById("signupForm").addEventListener("submit", (e) => {
+    document.getElementById("qualifyingForm").addEventListener("submit", async e => {
       e.preventDefault();
-      addEntry("Sign Up", { offer: signupOffer.value });
-      e.target.reset();
-    });
-
-    document.getElementById("depositForm").addEventListener("submit", (e) => {
-      e.preventDefault();
-      addEntry("Deposit", { offer: depositOffer.value, amount: depositAmount.value });
-      e.target.reset();
-    });
-
-    document.getElementById("qualForm").addEventListener("submit", (e) => {
-      e.preventDefault();
-      addEntry("Qualifying Bet", {
-        offer: qualOffer.value,
-        amount: backStake.value,
-        liability: liability.value
+      const offer = document.getElementById("qualOffer").value;
+      const back = parseFloat(document.getElementById("qualBack").value);
+      const lay = parseFloat(document.getElementById("qualLay").value);
+      const liability = parseFloat(document.getElementById("qualLiability").value);
+      const pl = -Math.abs(back - lay - liability);
+      await addDoc(collection(db, "expenses", userId, "entries"), {
+        type: "Qualifying Bet",
+        offer,
+        pl,
+        date: Date.now()
       });
       e.target.reset();
     });
 
-    document.getElementById("freebetForm").addEventListener("submit", (e) => {
+    document.getElementById("freeForm").addEventListener("submit", async e => {
       e.preventDefault();
-      addEntry("Free Bet", {
-        offer: freebetOffer.value,
-        freeBetAmount: freeBetAmount.value,
-        backOdds: backOdds.value,
-        layOdds: layOdds.value,
-        liability: freeLiability.value
+      const offer = document.getElementById("freeOffer").value;
+      const fbAmount = parseFloat(document.getElementById("freeAmount").value);
+      const backOdds = parseFloat(document.getElementById("freeBackOdds").value);
+      const layOdds = parseFloat(document.getElementById("freeLayOdds").value);
+      const liability = parseFloat(document.getElementById("freeLiability").value);
+      const backReturn = fbAmount * backOdds;
+      const layReturn = (fbAmount * (layOdds - 1)) - liability;
+      const pl = Math.max(layReturn, backReturn - fbAmount - liability); // conservative estimate
+      await addDoc(collection(db, "expenses", userId, "entries"), {
+        type: "Free Bet",
+        offer,
+        pl,
+        date: Date.now()
       });
       e.target.reset();
     });
