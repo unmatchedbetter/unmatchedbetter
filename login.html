@@ -7,9 +7,9 @@
   <link rel="stylesheet" href="style.css" />
   <style>
     body {
-      margin: 0;
       font-family: Arial, sans-serif;
-      background-color: #f4f4f4;
+      background: #f4f4f4;
+      margin: 0;
     }
 
     header {
@@ -20,20 +20,12 @@
 
     .navbar {
       display: flex;
-      align-items: center;
       justify-content: space-between;
-      flex-wrap: wrap;
-    }
-
-    .navbar h1 {
-      margin: 0;
-      font-size: 1.5rem;
+      align-items: center;
     }
 
     nav ul {
       list-style: none;
-      padding: 0;
-      margin: 0;
       display: flex;
       gap: 1rem;
     }
@@ -43,18 +35,13 @@
       text-decoration: none;
     }
 
-    nav ul li a.active,
-    nav ul li a:hover {
-      text-decoration: underline;
-    }
-
     main {
       padding: 2rem;
       max-width: 400px;
       margin: 3rem auto;
       background: white;
       border-radius: 10px;
-      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
     }
 
     h2 {
@@ -62,39 +49,30 @@
       margin-bottom: 1.5rem;
     }
 
-    input[type="text"],
-    input[type="password"] {
+    input, button {
       width: 100%;
       padding: 0.75rem;
-      margin-bottom: 1rem;
-      border: 1px solid #ccc;
+      margin: 0.5rem 0;
       border-radius: 5px;
+      border: 1px solid #ccc;
     }
 
     button {
-      width: 100%;
-      padding: 0.75rem;
-      background-color: #007bff;
+      background: #28a745;
       color: white;
-      border: none;
-      border-radius: 5px;
       font-weight: bold;
       cursor: pointer;
-      transition: background 0.3s ease;
     }
 
     button:hover {
-      background-color: #0056b3;
+      background: #218838;
     }
 
-    .message {
+    .toggle {
       margin-top: 1rem;
       text-align: center;
-      color: green;
-    }
-
-    .error {
-      color: red;
+      cursor: pointer;
+      color: #007bff;
     }
   </style>
 </head>
@@ -110,50 +88,55 @@
           <li><a href="offers.html">Offers</a></li>
           <li><a href="faq.html">FAQs</a></li>
           <li><a href="contact.html">Contact</a></li>
-          <li><a href="login.html" class="active">Login</a></li>
+          <li><a href="tracker.html">Tracker</a></li>
         </ul>
       </nav>
     </div>
   </header>
 
   <main>
-    <h2>Login / Sign Up</h2>
-    <input type="text" id="username" placeholder="Username" />
-    <input type="password" id="password" placeholder="Password" />
-    <button onclick="loginOrSignup()">Continue</button>
-    <div class="message" id="message"></div>
+    <h2 id="formTitle">Login</h2>
+    <form onsubmit="handleAuth(event)">
+      <input type="text" id="username" placeholder="Username" required />
+      <input type="password" id="password" placeholder="Password" required />
+      <button type="submit" id="authButton">Login</button>
+    </form>
+    <div class="toggle" onclick="toggleMode()">Don't have an account? Create one</div>
   </main>
 
   <script>
-    function loginOrSignup() {
-      const user = document.getElementById("username").value.trim();
-      const pass = document.getElementById("password").value;
-      const msg = document.getElementById("message");
+    let isLogin = true;
 
-      if (!user || !pass) {
-        msg.textContent = "Please enter a username and password.";
-        msg.className = "message error";
-        return;
-      }
+    function toggleMode() {
+      isLogin = !isLogin;
+      document.getElementById("formTitle").innerText = isLogin ? "Login" : "Create Account";
+      document.getElementById("authButton").innerText = isLogin ? "Login" : "Create Account";
+      document.querySelector(".toggle").innerText = isLogin
+        ? "Don't have an account? Create one"
+        : "Already have an account? Login";
+    }
 
-      const stored = localStorage.getItem(`user-${user}`);
+    function handleAuth(e) {
+      e.preventDefault();
+      const username = document.getElementById("username").value.trim();
+      const password = document.getElementById("password").value;
 
-      if (stored) {
-        if (stored === pass) {
-          msg.textContent = "Login successful!";
-          msg.className = "message";
-          localStorage.setItem("loggedInUser", user);
-          setTimeout(() => window.location.href = "tracker.html", 1000);
-        } else {
-          msg.textContent = "Incorrect password.";
-          msg.className = "message error";
-        }
+      if (!username || !password) return alert("Please fill in all fields.");
+
+      const userKey = `user-${username}`;
+      const stored = localStorage.getItem(userKey);
+
+      if (isLogin) {
+        if (!stored) return alert("User not found.");
+        const data = JSON.parse(stored);
+        if (data.password !== password) return alert("Incorrect password.");
+        localStorage.setItem("loggedInUser", username);
+        window.location.href = "tracker.html";
       } else {
-        localStorage.setItem(`user-${user}`, pass);
-        localStorage.setItem("loggedInUser", user);
-        msg.textContent = "Account created!";
-        msg.className = "message";
-        setTimeout(() => window.location.href = "tracker.html", 1000);
+        if (stored) return alert("Username already taken.");
+        localStorage.setItem(userKey, JSON.stringify({ password }));
+        localStorage.setItem("loggedInUser", username);
+        window.location.href = "tracker.html";
       }
     }
   </script>
