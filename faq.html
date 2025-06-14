@@ -1,33 +1,131 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>FAQ - Unmatched Better</title>
-  <link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>FAQs | Unmatched Better</title>
+  <link rel="stylesheet" href="style.css" />
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: #f4f4f4;
+    }
+
+    header {
+      background-color: #222;
+      color: white;
+      padding: 1rem 2rem;
+    }
+
+    .navbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+    }
+
+    .navbar h1 {
+      margin: 0;
+      font-size: 1.5rem;
+    }
+
+    nav ul {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      display: flex;
+      gap: 1rem;
+    }
+
+    nav ul li a {
+      color: white;
+      text-decoration: none;
+    }
+
+    nav ul li a.active,
+    nav ul li a:hover {
+      text-decoration: underline;
+    }
+
+    main {
+      padding: 2rem;
+      max-width: 800px;
+      margin: auto;
+      background: white;
+      border-radius: 10px;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+      margin-top: 2rem;
+    }
+
+    h2 {
+      text-align: center;
+      margin-bottom: 1rem;
+    }
+
+    .faq {
+      margin-bottom: 1.5rem;
+    }
+
+    .faq h3 {
+      margin-bottom: 0.5rem;
+      color: #333;
+    }
+
+    .faq p {
+      line-height: 1.6;
+    }
+  </style>
 </head>
 <body>
   <header>
-    <div class="container">
-      <a href="index.html"><img src="logo.png" alt="Logo" style="max-height: 60px;"></a>
-<nav>
-  <a href="index.html">Home</a>
-  <a href="how-it-works.html">How It Works</a>
-  <a href="offers.html">Offers</a>
-  <a href="calculator.html">Calculator</a>
-  <a href="faq.html">FAQ</a>
-  <a href="contact.html">Contact</a>
-  <a href="disclaimer.html">Disclaimer</a>
-</nav>
+    <div class="navbar">
+      <h1>Unmatched Better</h1>
+      <nav>
+        <ul>
+          <li><a href="index.html">Home</a></li>
+          <li><a href="how-it-works.html">How It Works</a></li>
+          <li><a href="calculator.html">Calculator</a></li>
+          <li><a href="offers.html">Offers</a></li>
+          <li><a href="faq.html" class="active">FAQs</a></li>
+          <li><a href="contact.html">Contact</a></li>
+        </ul>
+      </nav>
     </div>
   </header>
-  <main class="container">
+
+  <main>
     <h2>Frequently Asked Questions</h2>
-    <p><strong>Is matched betting legal?</strong><br>Yes, it's completely legal in the UK when done correctly.</p>
-    <p><strong>Is matched betting risk-free?</strong><br>When done properly, it removes the risk from betting using math.</p>
-    <p><strong>Do I need to pay tax?</strong><br>No. In the UK, gambling winnings are not taxed.</p>
+
+    <div class="faq">
+      <h3>Is matched betting legal?</h3>
+      <p>Yes. Matched betting is completely legal in the UK. You're simply making use of promotions offered by bookmakers.</p>
+    </div>
+
+    <div class="faq">
+      <h3>Is this gambling?</h3>
+      <p>No. Matched betting is based on mathematics, not chance. If done correctly, every outcome is covered and you're guaranteed a return.</p>
+    </div>
+
+    <div class="faq">
+      <h3>Do I need a lot of money to start?</h3>
+      <p>You can start with as little as £50–£100. As you profit from more offers, your bankroll grows.</p>
+    </div>
+
+    <div class="faq">
+      <h3>Can I lose money?</h3>
+      <p>If instructions are followed correctly, the process is risk-free. Mistakes can lead to losses, so double-check calculations and stakes.</p>
+    </div>
+
+    <div class="faq">
+      <h3>Will I be taxed on profits?</h3>
+      <p>No. In the UK, gambling winnings—including matched betting—are not subject to tax.</p>
+    </div>
+
+    <div class="faq">
+      <h3>How do I get started?</h3>
+      <p>Head over to our <a href="how-it-works.html">How It Works</a> page and follow the steps. Then visit our <a href="offers.html">Offers</a> page to find the best signup bonuses.</p>
+    </div>
   </main>
-  <footer>
-    <p>&copy; 2025 Unmatched Better • Educational use only</p>
-  </footer>
 </body>
 </html>
