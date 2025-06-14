@@ -1,14 +1,8 @@
-<script>
-  // Redirect to login if not logged in
-  if (localStorage.getItem('loggedIn') !== 'true') {
-    window.location.href = 'login.html';
-  }
-</script>
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>FAQs | Unmatched Better</title>
   <link rel="stylesheet" href="style.css" />
   <style>
@@ -66,7 +60,7 @@
 
     h2 {
       text-align: center;
-      margin-bottom: 1rem;
+      margin-bottom: 2rem;
     }
 
     .faq-item {
@@ -74,24 +68,33 @@
     }
 
     .faq-item h3 {
-      margin: 0.5rem 0;
+      margin: 0 0 0.5rem 0;
+    }
+
+    .faq-item p {
+      margin: 0;
     }
   </style>
 </head>
 <body>
+  <script>
+    if (localStorage.getItem('loggedIn') !== 'true') {
+      window.location.href = 'login.html';
+    }
+  </script>
+
   <header>
     <div class="navbar">
       <h1>Unmatched Better</h1>
       <nav>
         <ul>
-          <li><a href="index.html">Home</a></li>
+          <li><a href="home.html">Home</a></li>
           <li><a href="how-it-works.html">How It Works</a></li>
           <li><a href="calculator.html">Calculator</a></li>
           <li><a href="offers.html">Offers</a></li>
           <li><a href="faq.html" class="active">FAQs</a></li>
           <li><a href="contact.html">Contact</a></li>
-          <li><a href="login.html">Login</a></li>
-          <a href="expenses.html">Expense Tracker</a>
+          <li><a href="expense-tracker.html">Expense Tracker</a></li>
         </ul>
       </nav>
     </div>
@@ -102,37 +105,27 @@
 
     <div class="faq-item">
       <h3>What is matched betting?</h3>
-      <p>Matched betting is a way to profit from bookmaker offers by placing opposing bets on all outcomes of an event to guarantee a return.</p>
+      <p>Matched betting is a risk-free betting technique that uses free bets and promotions offered by bookmakers to guarantee a profit.</p>
     </div>
 
     <div class="faq-item">
       <h3>Is matched betting legal?</h3>
-      <p>Yes, matched betting is completely legal in the UK and does not involve any form of gambling.</p>
+      <p>Yes, matched betting is completely legal in the UK and many other countries. You are simply using bookmakers' offers as intended.</p>
     </div>
 
     <div class="faq-item">
-      <h3>Do I need to pay tax on my profits?</h3>
-      <p>No, gambling winnings in the UK are tax-free, including those from matched betting.</p>
+      <h3>Do I need to know about sports?</h3>
+      <p>No sports knowledge is required. Our calculators and guides walk you through each step so you can profit without following the games.</p>
     </div>
 
     <div class="faq-item">
-      <h3>What do I need to get started?</h3>
-      <p>You'll need a computer or smartphone, internet connection, and accounts with online bookmakers and betting exchanges.</p>
+      <h3>How much money can I make?</h3>
+      <p>New users can typically make £300–£1000 from welcome offers. Ongoing profits vary but can be £100–£500/month with regular effort.</p>
     </div>
 
     <div class="faq-item">
-      <h3>What is a lay bet?</h3>
-      <p>A lay bet is a bet against an outcome, typically placed on a betting exchange like Betfair or Smarkets.</p>
-    </div>
-
-    <div class="faq-item">
-      <h3>How does your calculator work?</h3>
-      <p>Our calculator helps you determine the correct lay stake and expected profit or loss for both qualifying and free bets.</p>
-    </div>
-
-    <div class="faq-item">
-      <h3>Why do I need to sign up for an account?</h3>
-      <p>Creating an account allows you to access tools like our expenses tracker, so you can track profits and losses.</p>
+      <h3>Is it risk-free?</h3>
+      <p>When done correctly, yes. Our tools ensure you place back and lay bets that cancel each other out, locking in a profit or minimizing loss.</p>
     </div>
   </main>
 </body>
