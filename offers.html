@@ -1,3 +1,9 @@
+<script>
+  // Redirect to login if not logged in
+  if (localStorage.getItem('loggedIn') !== 'true') {
+    window.location.href = 'login.html';
+  }
+</script>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -6,27 +12,30 @@
   <title>Offers | Unmatched Better</title>
   <link rel="stylesheet" href="style.css" />
   <style>
-    /* (Same styles as before) */
     body {
       margin: 0;
       font-family: Arial, sans-serif;
       background: #f4f4f4;
     }
+
     header {
       background-color: #222;
       color: white;
       padding: 1rem 2rem;
     }
+
     .navbar {
       display: flex;
       align-items: center;
       justify-content: space-between;
       flex-wrap: wrap;
     }
+
     .navbar h1 {
       margin: 0;
       font-size: 1.5rem;
     }
+
     nav ul {
       list-style: none;
       padding: 0;
@@ -34,14 +43,17 @@
       display: flex;
       gap: 1rem;
     }
+
     nav ul li a {
       color: white;
       text-decoration: none;
     }
+
     nav ul li a.active,
     nav ul li a:hover {
       text-decoration: underline;
     }
+
     main {
       padding: 2rem;
       max-width: 1000px;
@@ -51,24 +63,29 @@
       box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
       margin-top: 2rem;
     }
+
     h2 {
       text-align: center;
       margin-bottom: 1rem;
     }
+
     .filter-bar {
       text-align: right;
       margin-bottom: 1rem;
     }
+
     select {
       padding: 0.5rem;
       border-radius: 5px;
       border: 1px solid #ccc;
     }
+
     .offers-grid {
       display: grid;
       grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
       gap: 1.5rem;
     }
+
     .offer-card {
       background-color: #fafafa;
       border: 1px solid #ddd;
@@ -76,39 +93,36 @@
       border-radius: 8px;
       box-shadow: 0 1px 3px rgba(0,0,0,0.1);
     }
+
     .offer-card h3 {
       margin-top: 0;
     }
+
     .offer-card a {
       display: inline-block;
       margin-top: 0.5rem;
       color: #007BFF;
       text-decoration: none;
     }
+
     .offer-card a:hover {
       text-decoration: underline;
     }
   </style>
 </head>
 <body>
-  <script>
-    if (localStorage.getItem('loggedIn') !== 'true') {
-      window.location.href = 'login.html';
-    }
-  </script>
-
   <header>
     <div class="navbar">
       <h1>Unmatched Better</h1>
       <nav>
         <ul>
-          <li><a href="home.html">Home</a></li>
+          <li><a href="index.html">Home</a></li>
           <li><a href="how-it-works.html">How It Works</a></li>
           <li><a href="calculator.html">Calculator</a></li>
           <li><a href="offers.html" class="active">Offers</a></li>
           <li><a href="faq.html">FAQs</a></li>
           <li><a href="contact.html">Contact</a></li>
-          <li><a href="expense-tracker.html">Expense Tracker</a></li>
+          <li><a href="expenses.html">Expense Tracker</a></li>
         </ul>
       </nav>
     </div>
@@ -125,7 +139,9 @@
       </select>
     </div>
 
-    <div class="offers-grid" id="offersContainer"></div>
+    <div class="offers-grid" id="offersContainer">
+      <!-- Offers will be dynamically inserted here -->
+    </div>
   </main>
 
   <script>
@@ -135,27 +151,27 @@
       { name: "Sky Bet", value: 20, text: "£20 in free bets when you bet £5" },
       { name: "Paddy Power", value: 20, text: "£20 risk-free first bet" },
       { name: "Betfair", value: 30, text: "£30 in free bets when you bet £10" },
-      { name: "Betfred", value: 40, text: "Bet £10 get £40 in bonuses" },
+      { name: "Betfred", value: 50, text: "Bet £10 get £50", link: "https://www.betfred.com/promotion/sports-welcome-offer-bet-10-get-50" },
       { name: "Coral", value: 20, text: "Bet £5 get £20" },
       { name: "Ladbrokes", value: 20, text: "Bet £5 get £20 in free bets" },
-      { name: "Unibet", value: 40, text: "Money back up to £40 if your first bet loses" },
+      { name: "Unibet", value: 40, text: "Welcome to betting", link: "https://www.unibet.co.uk/promotions/sportsbook-promotions/welcome-to-betting" },
       { name: "Virgin Bet", value: 20, text: "Bet £10 get £20" },
-      { name: "888sport", value: 40, text: "Bet £10 get £30 in free bets + £10 casino bonus" },
+      { name: "888sport", value: 40, text: "£30 in free bets + £10 casino bonus", link: "https://www.888sport.com/online-sports-betting-promotions/" },
       { name: "QuinnBet", value: 35, text: "Get 50% back as a free bet up to £35" },
       { name: "LiveScore Bet", value: 20, text: "Bet £10 get £20 in free bets" },
       { name: "BoyleSports", value: 20, text: "Bet £10 get £20 in free bets" },
       { name: "Betway", value: 30, text: "£30 matched free bet if your first bet loses" },
       { name: "BetUK", value: 30, text: "Bet £10 get £30" },
       { name: "Mr Green", value: 20, text: "Bet £10 get £10 free bet + 50 free spins" },
-      { name: "Sporting Index", value: 75, text: "£75 in free bets" },
+      { name: "Sporting Index", value: 60, text: "Bet £10 get £60 in Free bets", link: "https://www.sportingindex.com/offers/60-in-free-bets/" },
       { name: "Midnite", value: 20, text: "Bet £10 get £20" },
       { name: "Betgoodwin", value: 25, text: "100% deposit bonus up to £25" },
       { name: "TalkSport Bet", value: 20, text: "Bet £10 get £20" },
-      { name: "Betzone", value: 60, text: "£60 in free bets" },
+      { name: "Betzone", value: 20, text: "Bet £10 get £20", link: "https://betzone.co.uk/lp/get20/?btag=a_44b_128c_&siteid=44&type=bookie_page" },
       { name: "Kwiff", value: 30, text: "Bet £10 get £30 in free bets" },
       { name: "BetVictor", value: 30, text: "Bet £5 get £30" },
       { name: "Parimatch", value: 30, text: "Bet £5 get £30" },
-      { name: "BetMGM", value: 40, text: "Bet £10 get £40 in free bets" }
+      { name: "BetMGM", value: 40, text: "Bet £10 get £40 in free bets", link: "https://www.betmgm.co.uk/promotions/sports/welcome-offer" }
     ];
 
     function renderOffers(sortedOffers) {
@@ -164,7 +180,11 @@
       sortedOffers.forEach(offer => {
         const card = document.createElement("div");
         card.className = "offer-card";
-        card.innerHTML = `<h3>${offer.name}</h3><p>${offer.text}</p><a href="#">Claim Offer</a>`;
+        card.innerHTML = `
+          <h3>${offer.name}</h3>
+          <p>${offer.text}</p>
+          <a href="${offer.link || '#'}" target="_blank">Claim Offer</a>
+        `;
         container.appendChild(card);
       });
     }
@@ -181,3 +201,4 @@
   </script>
 </body>
 </html>
+
