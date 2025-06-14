@@ -1,9 +1,3 @@
-<script>
-  // Redirect to login if not logged in
-  if (localStorage.getItem('loggedIn') !== 'true') {
-    window.location.href = 'login.html';
-  }
-</script>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -56,7 +50,7 @@
 
     main {
       padding: 2rem;
-      max-width: 800px;
+      max-width: 700px;
       margin: auto;
       background: white;
       border-radius: 10px;
@@ -66,53 +60,63 @@
 
     h2 {
       text-align: center;
-      margin-bottom: 1rem;
+      margin-bottom: 1.5rem;
     }
 
-    form {
+    .calculator {
       display: flex;
       flex-direction: column;
       gap: 1rem;
     }
 
-    label {
-      font-weight: bold;
+    input {
+      padding: 0.75rem;
+      font-size: 1rem;
+      border: 1px solid #ccc;
+      border-radius: 5px;
     }
 
-    input {
-      padding: 0.5rem;
+    button {
+      padding: 0.75rem;
+      background-color: #007BFF;
+      color: white;
+      border: none;
+      font-size: 1rem;
+      cursor: pointer;
       border-radius: 5px;
-      border: 1px solid #ccc;
+    }
+
+    button:hover {
+      background-color: #0056b3;
     }
 
     .result {
-      background-color: #e7f4e4;
-      border: 1px solid #a5d6a7;
+      margin-top: 1.5rem;
       padding: 1rem;
-      border-radius: 5px;
-      margin-top: 1rem;
+      background: #e7f3ff;
+      border-left: 5px solid #007BFF;
     }
   </style>
-  <script>
-    // Redirect to login if not logged in
-    if (!localStorage.getItem('username')) {
-      window.location.href = `login.html?redirect=${encodeURIComponent(window.location.pathname)}`;
-    }
-  </script>
 </head>
 <body>
+  <script>
+    if (localStorage.getItem('loggedIn') !== 'true') {
+      window.location.href = 'login.html';
+    }
+  </script>
+
   <header>
     <div class="navbar">
       <h1>Unmatched Better</h1>
       <nav>
         <ul>
-          <li><a href="index.html">Home</a></li>
+          <li><a href="home.html">Home</a></li>
           <li><a href="how-it-works.html">How It Works</a></li>
           <li><a href="calculator.html" class="active">Calculator</a></li>
           <li><a href="offers.html">Offers</a></li>
           <li><a href="faq.html">FAQs</a></li>
           <li><a href="contact.html">Contact</a></li>
-          <li><a href="expense.html">Expense Tracker</a></li>
+          <li><a href="expense-tracker.html">Expense Tracker</a></li>
         </ul>
       </nav>
     </div>
@@ -120,71 +124,36 @@
 
   <main>
     <h2>Free Bet Calculator</h2>
-    <form id="freeBetForm">
-      <label>Free Bet Amount (£):</label>
-      <input type="number" id="freeBetAmount" required>
-
-      <label>Back Odds:</label>
-      <input type="number" id="backOdds" required>
-
-      <label>Lay Odds:</label>
-      <input type="number" id="layOdds" required>
-
-      <label>Lay Commission (%):</label>
-      <input type="number" id="commission" value="5" required>
-
-      <button type="button" onclick="calculateFreeBet()">Calculate</button>
-    </form>
-    <div class="result" id="freeBetResult"></div>
-
-    <h2 style="margin-top: 3rem;">Qualifying Bet Calculator</h2>
-    <form id="qualifyingBetForm">
-      <label>Stake (£):</label>
-      <input type="number" id="qualStake" required>
-
-      <label>Back Odds:</label>
-      <input type="number" id="qualBackOdds" required>
-
-      <label>Lay Odds:</label>
-      <input type="number" id="qualLayOdds" required>
-
-      <label>Lay Commission (%):</label>
-      <input type="number" id="qualCommission" value="5" required>
-
-      <button type="button" onclick="calculateQualifyingBet()">Calculate</button>
-    </form>
-    <div class="result" id="qualifyingBetResult"></div>
+    <div class="calculator">
+      <input type="number" id="freeBetAmount" placeholder="Free Bet Amount (£)" />
+      <input type="number" id="backOdds" placeholder="Back Odds" />
+      <input type="number" id="layOdds" placeholder="Lay Odds" />
+      <input type="number" id="layCommission" placeholder="Lay Commission (%)" />
+      <button onclick="calculate()">Calculate</button>
+      <div class="result" id="result" style="display: none;"></div>
+    </div>
   </main>
 
   <script>
-    function calculateFreeBet() {
+    function calculate() {
       const freeBetAmount = parseFloat(document.getElementById('freeBetAmount').value);
       const backOdds = parseFloat(document.getElementById('backOdds').value);
       const layOdds = parseFloat(document.getElementById('layOdds').value);
-      const commission = parseFloat(document.getElementById('commission').value) / 100;
+      const layCommission = parseFloat(document.getElementById('layCommission').value) / 100;
 
-      const layStake = (freeBetAmount * (backOdds - 1)) / (layOdds - commission);
+      if (isNaN(freeBetAmount) || isNaN(backOdds) || isNaN(layOdds) || isNaN(layCommission)) {
+        alert('Please fill in all fields with valid numbers.');
+        return;
+      }
+
+      const layStake = (freeBetAmount * (backOdds - 1)) / (layOdds - layCommission);
       const liability = layStake * (layOdds - 1);
 
-      document.getElementById('freeBetResult').innerHTML =
-        `<strong>Lay Stake:</strong> £${layStake.toFixed(2)}<br/>
-         <strong>Liability:</strong> £${liability.toFixed(2)}`;
-    }
-
-    function calculateQualifyingBet() {
-      const stake = parseFloat(document.getElementById('qualStake').value);
-      const backOdds = parseFloat(document.getElementById('qualBackOdds').value);
-      const layOdds = parseFloat(document.getElementById('qualLayOdds').value);
-      const commission = parseFloat(document.getElementById('qualCommission').value) / 100;
-
-      const layStake = (stake * backOdds) / (layOdds - commission);
-      const liability = layStake * (layOdds - 1);
-      const expectedLoss = (layStake * commission) + (stake * (1 - backOdds / layOdds));
-
-      document.getElementById('qualifyingBetResult').innerHTML =
-        `<strong>Lay Stake:</strong> £${layStake.toFixed(2)}<br/>
-         <strong>Liability:</strong> £${liability.toFixed(2)}<br/>
-         <strong>Expected Loss:</strong> £${expectedLoss.toFixed(2)}`;
+      document.getElementById('result').style.display = 'block';
+      document.getElementById('result').innerHTML = `
+        <strong>Lay Stake:</strong> £${layStake.toFixed(2)}<br>
+        <strong>Liability:</strong> £${liability.toFixed(2)}
+      `;
     }
   </script>
 </body>
