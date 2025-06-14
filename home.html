@@ -1,133 +1,48 @@
-<script>
-  // Redirect to login if not logged in
-  if (localStorage.getItem('loggedIn') !== 'true') {
-    window.location.href = 'login.html';
-  }
-</script>
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta charset="UTF-8" /><meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Home | Unmatched Better</title>
-  <link rel="stylesheet" href="style.css" />
-  <style>
-    body {
-      margin: 0;
-      font-family: Arial, sans-serif;
-      background: #f4f4f4;
-    }
+  <link rel="stylesheet" href="style.css"/>
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+    import { getAuth, signInAnonymously, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
 
-    header {
-      background-color: #222;
-      color: white;
-      padding: 1rem 2rem;
-    }
+    const firebaseConfig = {
+      apiKey: "AIzaSyD8CRdx5VonpgIivDelnm3H0O8YN8dc38c",
+      authDomain: "unmatchedbetter.firebaseapp.com",
+      projectId: "unmatchedbetter",
+      storageBucket: "unmatchedbetter.firebasestorage.app",
+      messagingSenderId: "706155797600",
+      appId: "1:706155797600:web:5fe4b5711b204beeddb705",
+      measurementId: "G-K3YTJHX1FD"
+    };
 
-    .navbar {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      flex-wrap: wrap;
-    }
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+    signInAnonymously(auth).catch(console.error);
 
-    .navbar h1 {
-      margin: 0;
-      font-size: 1.5rem;
-    }
-
-    nav ul {
-      list-style: none;
-      padding: 0;
-      margin: 0;
-      display: flex;
-      gap: 1rem;
-    }
-
-    nav ul li a {
-      color: white;
-      text-decoration: none;
-    }
-
-    nav ul li a.active,
-    nav ul li a:hover {
-      text-decoration: underline;
-    }
-
-    main {
-      padding: 2rem;
-      max-width: 800px;
-      margin: auto;
-      background: white;
-      border-radius: 10px;
-      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
-      margin-top: 2rem;
-    }
-
-    h2 {
-      text-align: center;
-      margin-bottom: 1rem;
-    }
-
-    p {
-      line-height: 1.6;
-    }
-
-    .login-buttons {
-      text-align: center;
-      margin-top: 2rem;
-    }
-
-    .login-buttons a {
-      display: inline-block;
-      margin: 0 10px;
-      padding: 0.5rem 1rem;
-      background-color: #222;
-      color: white;
-      text-decoration: none;
-      border-radius: 5px;
-    }
-
-    .login-buttons a:hover {
-      background-color: #444;
-    }
-  </style>
+    onAuthStateChanged(auth, user => {
+      if (!user) window.location.href = "index.html";
+    });
+  </script>
 </head>
 <body>
-  <header>
-    <div class="navbar">
-      <h1>Unmatched Better</h1>
-      <nav>
-        <ul>
-          <li><a href="index.html" class="active">Home</a></li>
-          <li><a href="how-it-works.html">How It Works</a></li>
-          <li><a href="calculator.html">Calculator</a></li>
-          <li><a href="offers.html">Offers</a></li>
-          <li><a href="faq.html">FAQs</a></li>
-          <li><a href="contact.html">Contact</a></li>
-          <li><a href="login.html">Login</a></li>
-          <li><a href="tracker.html">Expense Tracker</a></li>
-        </ul>
-      </nav>
-    </div>
-  </header>
+  <header><div class="navbar">
+    <h1>Unmatched Better</h1>
+    <nav><ul>
+      <li><a href="home.html" class="active">Home</a></li>
+      <li><a href="how-it-works.html">How It Works</a></li>
+      <li><a href="calculator.html">Calculator</a></li>
+      <li><a href="offers.html">Offers</a></li>
+      <li><a href="faq.html">FAQs</a></li>
+      <li><a href="contact.html">Contact</a></li>
+      <li><a href="expense-tracker.html">Expense Tracker</a></li>
+    </ul></nav></div></header>
 
   <main>
     <h2>Welcome to Unmatched Better</h2>
-    <p>
-      Unmatched Better is your guide to risk-free profits through matched betting. 
-      Whether you're just starting out or looking to scale your earnings, we provide the tools, calculators, 
-      and guidance you need to profit from bookmaker offers.
-    </p>
-    <p>
-      Use our <strong>calculator</strong> to get accurate lay stakes and expected returns. 
-      Browse our <strong>offers</strong> page to find the latest signup deals. 
-      Learn exactly how matched betting works on the <strong>How It Works</strong> page.
-    </p>
-    <div class="login-buttons">
-      <a href="login.html">Log In / Sign Up</a>
-      <a href="tracker.html">Go to Expense Tracker</a>
-    </div>
+    <p>Your matched betting dashboard is here—feel free to explore!</p>
   </main>
 </body>
 </html>
