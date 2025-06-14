@@ -1,57 +1,114 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Sign-Up Offers | Unmatched Better</title>
-  <link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Offers | Unmatched Better</title>
+  <link rel="stylesheet" href="style.css" />
   <style>
-    .offers-container {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-      gap: 1.5rem;
-      padding: 2rem;
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      background: #f4f4f4;
     }
-    .offer-card {
-      border: 1px solid #ccc;
-      border-radius: 10px;
-      padding: 1rem;
-      background-color: #f9f9f9;
-      transition: box-shadow 0.3s ease;
-    }
-    .offer-card:hover {
-      box-shadow: 0 0 10px rgba(0,0,0,0.15);
-    }
-    .offer-card h3 {
-      margin-top: 0;
-      font-size: 1.2rem;
-    }
-    .filter-container {
+
+    header {
+      background-color: #222;
+      color: white;
       padding: 1rem 2rem;
     }
+
+    .navbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+    }
+
+    .navbar h1 {
+      margin: 0;
+      font-size: 1.5rem;
+    }
+
+    nav ul {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      display: flex;
+      gap: 1rem;
+    }
+
+    nav ul li a {
+      color: white;
+      text-decoration: none;
+    }
+
+    nav ul li a.active,
+    nav ul li a:hover {
+      text-decoration: underline;
+    }
+
+    h2 {
+      text-align: center;
+      margin-top: 1rem;
+    }
+
+    .filter-container {
+      text-align: center;
+      margin: 1rem;
+    }
+
     .filter-container select {
       padding: 0.5rem;
       font-size: 1rem;
+    }
+
+    .offers-container {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 1.5rem;
+      padding: 2rem;
+    }
+
+    .offer-card {
+      background: white;
+      border-radius: 10px;
+      padding: 1rem;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+      transition: transform 0.2s ease;
+    }
+
+    .offer-card:hover {
+      transform: translateY(-5px);
+    }
+
+    .offer-card h3 {
+      margin: 0 0 0.5rem;
+      font-size: 1.1rem;
     }
   </style>
 </head>
 <body>
   <header>
-    <nav>
-      <ul>
-        <li><a href="index.html">Home</a></li>
-        <li><a href="how-it-works.html">How It Works</a></li>
-        <li><a href="calculator.html">Calculator</a></li>
-        <li><a href="offers.html" class="active">Offers</a></li>
-        <li><a href="faq.html">FAQs</a></li>
-        <li><a href="contact.html">Contact</a></li>
-      </ul>
-    </nav>
-    <h1>Sign-Up Offers</h1>
+    <div class="navbar">
+      <h1>Unmatched Better</h1>
+      <nav>
+        <ul>
+          <li><a href="index.html">Home</a></li>
+          <li><a href="how-it-works.html">How It Works</a></li>
+          <li><a href="calculator.html">Calculator</a></li>
+          <li><a href="offers.html" class="active">Offers</a></li>
+          <li><a href="faq.html">FAQs</a></li>
+          <li><a href="contact.html">Contact</a></li>
+        </ul>
+      </nav>
+    </div>
   </header>
 
+  <h2>Sign-Up Offers</h2>
+
   <div class="filter-container">
-    <label for="sort">Sort by: </label>
+    <label for="sort">Sort by:</label>
     <select id="sort" onchange="sortOffers()">
       <option value="default">Default</option>
       <option value="high-to-low">Highest to Lowest</option>
@@ -67,7 +124,7 @@
       <div class="offer-card" data-value="20"><h3>Ladbrokes – Bet £5 Get £20</h3></div>
       <div class="offer-card" data-value="20"><h3>Coral – Bet £5 Get £20</h3></div>
       <div class="offer-card" data-value="20"><h3>Paddy Power – Bet £10 Get £20</h3></div>
-      <div class="offer-card" data-value="30"><h3>Betfair Sportsbook – Bet £10 Get £30</h3></div>
+      <div class="offer-card" data-value="30"><h3>Betfair – Bet £10 Get £30</h3></div>
       <div class="offer-card" data-value="30"><h3>Unibet – Bet £40 Get £30</h3></div>
       <div class="offer-card" data-value="50"><h3>Betfred – Bet £10 Get £50</h3></div>
       <div class="offer-card" data-value="20"><h3>Virgin Bet – Bet £10 Get £20</h3></div>
@@ -104,7 +161,7 @@
       } else if (sort === 'low-to-high') {
         cards.sort((a, b) => +a.dataset.value - +b.dataset.value);
       } else {
-        return; // default
+        return; // default order, no change
       }
 
       container.innerHTML = '';
