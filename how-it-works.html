@@ -1,9 +1,3 @@
-<script>
-  // Redirect to login if not logged in
-  if (localStorage.getItem('loggedIn') !== 'true') {
-    window.location.href = 'login.html';
-  }
-</script>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -66,50 +60,76 @@
 
     h2 {
       text-align: center;
-      margin-bottom: 1rem;
+      margin-bottom: 1.5rem;
+    }
+
+    section {
+      margin-bottom: 1.5rem;
+    }
+
+    section h3 {
+      margin-top: 0;
     }
 
     p {
-      margin-bottom: 1rem;
-    }
-
-    ul {
-      margin-bottom: 1rem;
-      padding-left: 1.2rem;
+      line-height: 1.6;
     }
   </style>
 </head>
 <body>
-<header>
-  <div class="navbar">
-    <h1>Unmatched Better</h1>
-    <nav>
-      <ul>
-        <li><a href="index.html">Home</a></li>
-        <li><a href="how-it-works.html" class="active">How It Works</a></li>
-        <li><a href="calculator.html">Calculator</a></li>
-        <li><a href="offers.html">Offers</a></li>
-        <li><a href="faq.html">FAQs</a></li>
-        <li><a href="contact.html">Contact</a></li>
-        <li><a href="login.html">Login</a></li>
-        <li><a href="expenses.html">Expense Tracker</a></li>
-      </ul>
-    </nav>
-  </div>
-</header>
+  <script>
+    if (localStorage.getItem('loggedIn') !== 'true') {
+      window.location.href = 'login.html';
+    }
+  </script>
+
+  <header>
+    <div class="navbar">
+      <h1>Unmatched Better</h1>
+      <nav>
+        <ul>
+          <li><a href="home.html">Home</a></li>
+          <li><a href="how-it-works.html" class="active">How It Works</a></li>
+          <li><a href="calculator.html">Calculator</a></li>
+          <li><a href="offers.html">Offers</a></li>
+          <li><a href="faq.html">FAQs</a></li>
+          <li><a href="contact.html">Contact</a></li>
+          <li><a href="expense-tracker.html">Expense Tracker</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
 
   <main>
     <h2>How Matched Betting Works</h2>
-    <p>Matched betting is a method that allows you to turn bookmaker free bets and promotions into real money with minimal risk. Here's how it works:</p>
-    <ul>
-      <li><strong>Step 1:</strong> Sign up to a bookmaker offering a free bet or welcome offer.</li>
-      <li><strong>Step 2:</strong> Place a back bet (betting for an outcome) on the bookmaker's site.</li>
-      <li><strong>Step 3:</strong> Place a lay bet (betting against the same outcome) on a betting exchange.</li>
-      <li><strong>Step 4:</strong> Use our calculator to ensure your lay stake and liability are correct so you lock in a minimal loss.</li>
-      <li><strong>Step 5:</strong> Once the back bet settles, use the free bet and repeat the matched betting process to lock in a profit.</li>
-    </ul>
-    <p>It may seem confusing at first, but our guides and calculators make it easy to follow. Best of all, it's completely legal and tax-free in the UK.</p>
+
+    <section>
+      <h3>1. Find an Offer</h3>
+      <p>
+        Bookmakers frequently run promotions like "Bet £10, Get £30 in Free Bets". These offers are designed to attract new customers.
+      </p>
+    </section>
+
+    <section>
+      <h3>2. Place a Qualifying Bet</h3>
+      <p>
+        Use our calculator to place a back bet with the bookmaker and a lay bet on a betting exchange. This ensures you neither win nor lose, and you unlock the free bet.
+      </p>
+    </section>
+
+    <section>
+      <h3>3. Use the Free Bet</h3>
+      <p>
+        Place another set of back and lay bets with your free bet stake. Because the free bet cost you nothing, you lock in a guaranteed profit regardless of the outcome.
+      </p>
+    </section>
+
+    <section>
+      <h3>4. Track Your Profits</h3>
+      <p>
+        Use the <strong>Expense Tracker</strong> to log your bets, profits, and bookmaker activity. This keeps you organised and helps you spot your most profitable offers.
+      </p>
+    </section>
   </main>
 </body>
 </html>
-
