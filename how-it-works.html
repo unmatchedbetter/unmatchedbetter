@@ -1,60 +1,109 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>How It Works | Unmatched Better</title>
-  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="style.css" />
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: #f4f4f4;
+    }
+
+    header {
+      background-color: #222;
+      color: white;
+      padding: 1rem 2rem;
+    }
+
+    .navbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+    }
+
+    .navbar h1 {
+      margin: 0;
+      font-size: 1.5rem;
+    }
+
+    nav ul {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      display: flex;
+      gap: 1rem;
+    }
+
+    nav ul li a {
+      color: white;
+      text-decoration: none;
+    }
+
+    nav ul li a.active,
+    nav ul li a:hover {
+      text-decoration: underline;
+    }
+
+    main {
+      padding: 2rem;
+      max-width: 800px;
+      margin: auto;
+      background: white;
+      border-radius: 10px;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+      margin-top: 2rem;
+    }
+
+    h2 {
+      text-align: center;
+      margin-bottom: 1rem;
+    }
+
+    p {
+      line-height: 1.6;
+    }
+  </style>
 </head>
 <body>
   <header>
-    <div class="container">
-      <a href="index.html">
-        <img src="logo.png" alt="Unmatched Better Logo" style="max-height: 60px;">
-      </a>
+    <div class="navbar">
+      <h1>Unmatched Better</h1>
       <nav>
-  <a href="index.html">Home</a>
-  <a href="how-it-works.html">How It Works</a>
-  <a href="offers.html">Offers</a>
-  <a href="calculator.html">Calculator</a>
-  <a href="faq.html">FAQ</a>
-  <a href="contact.html">Contact</a>
-  <a href="disclaimer.html">Disclaimer</a>
-</nav>
+        <ul>
+          <li><a href="index.html">Home</a></li>
+          <li><a href="how-it-works.html" class="active">How It Works</a></li>
+          <li><a href="calculator.html">Calculator</a></li>
+          <li><a href="offers.html">Offers</a></li>
+          <li><a href="faq.html">FAQs</a></li>
+          <li><a href="contact.html">Contact</a></li>
+        </ul>
+      </nav>
     </div>
   </header>
 
-  <main class="container">
-    <h1>How Matched Betting Works</h1>
-    <p>Matched betting is a way to turn free bookmaker offers into real, risk-free profit by betting on all outcomes of an event using two sites:</p>
-    <ul>
-      <li><strong>A bookmaker</strong> – where you place your free bet</li>
-      <li><strong>A betting exchange</strong> – where you “lay” (bet against) the same outcome</li>
-    </ul>
-
-    <h2>Step-by-Step Example</h2>
+  <main>
+    <h2>How Matched Betting Works</h2>
+    <p>
+      Matched betting is a strategy that allows you to profit from free bet promotions
+      offered by bookmakers. By placing a bet on both an outcome and its opposite using
+      a betting exchange, you can cover all results and secure a risk-free return.
+    </p>
+    <p>
+      Here’s how:
+    </p>
     <ol>
-      <li><strong>Sign up</strong> to a bookmaker offering “Bet £10, Get £30”</li>
-      <li><strong>Place a qualifying bet</strong> (e.g., £10 on Team A to win at the bookmaker)</li>
-      <li><strong>Lay that same bet</strong> on a betting exchange (Team A to NOT win)</li>
-      <li>Once the match finishes, you break even — but now you get £30 in free bets</li>
-      <li><strong>Repeat with free bets</strong>, using the same back and lay process, to make a profit</li>
+      <li><strong>Sign Up:</strong> Choose a bookmaker with a sign-up offer.</li>
+      <li><strong>Place a Qualifying Bet:</strong> Bet your own money on a result using the bookmaker and lay it on an exchange.</li>
+      <li><strong>Get a Free Bet:</strong> Once your qualifying bet settles, the bookmaker gives you a free bet.</li>
+      <li><strong>Extract Profit:</strong> Use our <a href="calculator.html">calculator</a> to stake your free bet in a way that guarantees a profit no matter the result.</li>
     </ol>
-
-    <h2>Why It Works</h2>
-    <p>You're covering all possible outcomes, so you don't rely on luck. The profit comes from the free bets, not gambling.</p>
-
-    <h2>What You Need</h2>
-    <ul>
-      <li>An account with a bookmaker</li>
-      <li>An account with a betting exchange (like Betfair or Smarkets)</li>
-      <li>A small amount of starting cash to place bets and cover exchange liability</li>
-    </ul>
-
-    <p><strong>Note:</strong> Matched betting is legal and profits are tax-free in the UK.</p>
+    <p>
+      It's 100% legal, tax-free in the UK, and completely based on maths — no gambling involved.
+    </p>
   </main>
-
-  <footer>
-    <p>&copy; 2025 Unmatched Better</p>
-  </footer>
 </body>
 </html>
