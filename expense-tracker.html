@@ -1,9 +1,3 @@
-<script>
-  // Redirect to login if not logged in
-  if (localStorage.getItem('loggedIn') !== 'true') {
-    window.location.href = 'login.html';
-  }
-</script>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -13,9 +7,9 @@
   <link rel="stylesheet" href="style.css" />
   <style>
     body {
-      font-family: Arial, sans-serif;
-      background: #f4f4f4;
       margin: 0;
+      font-family: Arial, sans-serif;
+      background-color: #f4f4f4;
     }
 
     header {
@@ -26,14 +20,9 @@
 
     .navbar {
       display: flex;
-      align-items: center;
       justify-content: space-between;
+      align-items: center;
       flex-wrap: wrap;
-    }
-
-    .navbar h1 {
-      margin: 0;
-      font-size: 1.5rem;
     }
 
     nav ul {
@@ -49,77 +38,174 @@
       text-decoration: none;
     }
 
-    nav ul li a.active,
-    nav ul li a:hover {
+    nav ul li a:hover,
+    nav ul li a.active {
       text-decoration: underline;
     }
 
     main {
-      max-width: 900px;
-      margin: 2rem auto;
-      background: white;
       padding: 2rem;
-      border-radius: 8px;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+      max-width: 900px;
+      margin: auto;
+      background: white;
+      border-radius: 10px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
     }
 
     h2 {
-      text-align: center;
+      margin-bottom: 1rem;
     }
 
     form {
       margin-bottom: 2rem;
-      border: 1px solid #ccc;
+      background: #f9f9f9;
       padding: 1rem;
-      border-radius: 6px;
-      background: #fafafa;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+    }
+
+    form h3 {
+      margin-top: 0;
     }
 
     label {
       display: block;
-      margin: 0.5rem 0 0.2rem;
+      margin-top: 0.5rem;
     }
 
-    input {
+    input, select {
+      padding: 0.5rem;
       width: 100%;
-      padding: 0.4rem;
-      margin-bottom: 0.8rem;
-      border-radius: 4px;
-      border: 1px solid #ccc;
+      margin-top: 0.25rem;
+      box-sizing: border-box;
     }
 
     button {
-      background-color: #007bff;
+      margin-top: 1rem;
+      padding: 0.6rem 1.2rem;
+      background: #222;
       color: white;
-      padding: 0.6rem 1rem;
       border: none;
-      border-radius: 4px;
+      border-radius: 5px;
       cursor: pointer;
     }
 
     table {
       width: 100%;
       border-collapse: collapse;
-      margin-top: 1rem;
-    }
-
-    table, th, td {
-      border: 1px solid #ccc;
+      margin-top: 2rem;
     }
 
     th, td {
-      padding: 0.5rem;
-      text-align: center;
+      border: 1px solid #ccc;
+      padding: 0.75rem;
+      text-align: left;
     }
 
-    .summary {
-      margin-top: 1rem;
-      text-align: right;
-      font-weight: bold;
+    th {
+      background-color: #eee;
     }
   </style>
 </head>
 <body>
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+    import { getAuth, signInAnonymously, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
+    import { getFirestore, collection, addDoc, onSnapshot } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyD8CRdx5VonpgIivDelnm3H0O8YN8dc38c",
+      authDomain: "unmatchedbetter.firebaseapp.com",
+      projectId: "unmatchedbetter",
+      storageBucket: "unmatchedbetter.firebasestorage.app",
+      messagingSenderId: "706155797600",
+      appId: "1:706155797600:web:5fe4b5711b204beeddb705",
+      measurementId: "G-K3YTJHX1FD"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth();
+    const db = getFirestore(app);
+
+    let userId = null;
+
+    onAuthStateChanged(auth, user => {
+      if (user) {
+        userId = user.uid;
+        localStorage.setItem("loggedIn", "true");
+        listenForEntries();
+      } else {
+        signInAnonymously(auth);
+      }
+    });
+
+    async function handleSubmit(type) {
+      const date = new Date().toISOString().split("T")[0];
+      let entry = { userId, date, type };
+
+      if (type === "Sign-Up") {
+        entry.offer = document.getElementById("signup-offer").value;
+        entry.status = "Signed Up";
+        entry.profit = 0;
+      }
+
+      if (type === "Deposit") {
+        entry.offer = document.getElementById("deposit-offer").value;
+        entry.amount = parseFloat(document.getElementById("deposit-amount").value);
+        entry.status = "Deposited";
+        entry.profit = -entry.amount;
+      }
+
+      if (type === "Qualifying Bet") {
+        const backAmount = parseFloat(document.getElementById("qb-back-amount").value);
+        const layStake = parseFloat(document.getElementById("qb-lay-stake").value);
+        const liability = parseFloat(document.getElementById("qb-liability").value);
+        const expectedLoss = (backAmount - layStake);
+        entry.offer = document.getElementById("qb-offer").value;
+        entry.backAmount = backAmount;
+        entry.layStake = layStake;
+        entry.liability = liability;
+        entry.status = "In Progress (QB)";
+        entry.profit = -expectedLoss;
+      }
+
+      if (type === "Free Bet") {
+        const fbAmount = parseFloat(document.getElementById("fb-amount").value);
+        const layOdds = parseFloat(document.getElementById("fb-lay-odds").value);
+        const backOdds = parseFloat(document.getElementById("fb-back-odds").value);
+        const liability = parseFloat(document.getElementById("fb-liability").value);
+        const layStake = parseFloat((fbAmount * (backOdds - 1)) / (layOdds - 0.02)).toFixed(2);
+        const profit = layStake - liability;
+        entry.offer = document.getElementById("fb-offer").value;
+        entry.status = "Free Bet Used";
+        entry.profit = parseFloat(profit);
+      }
+
+      await addDoc(collection(db, "expenses"), entry);
+    }
+
+    function listenForEntries() {
+      const table = document.getElementById("expensesTable");
+      table.innerHTML = `<tr><th>Date</th><th>Offer</th><th>Status</th><th>Profit/Loss</th></tr>`;
+      const q = collection(db, "expenses");
+      onSnapshot(q, snapshot => {
+        table.innerHTML = `<tr><th>Date</th><th>Offer</th><th>Status</th><th>Profit/Loss</th></tr>`;
+        snapshot.forEach(doc => {
+          const data = doc.data();
+          if (data.userId === userId) {
+            const row = `<tr>
+              <td>${data.date}</td>
+              <td>${data.offer}</td>
+              <td>${data.status}</td>
+              <td>${data.profit.toFixed(2)}</td>
+            </tr>`;
+            table.innerHTML += row;
+          }
+        });
+      });
+    }
+  </script>
+
   <header>
     <div class="navbar">
       <h1>Unmatched Better</h1>
@@ -140,138 +226,59 @@
   <main>
     <h2>Expense Tracker</h2>
 
-    <!-- Qualifying Bet Form -->
-    <form id="qualifyingForm">
-      <h3>Log a Qualifying Bet</h3>
+    <!-- Sign-Up -->
+    <form onsubmit="handleSubmit('Sign-Up'); return false;">
+      <h3>Log Sign-Up</h3>
       <label>Offer Name</label>
-      <input type="text" id="qualOffer" required />
-      <label>Back Amount</label>
-      <input type="number" id="qualBack" required />
-      <label>Lay Amount</label>
-      <input type="number" id="qualLay" required />
-      <label>Liability</label>
-      <input type="number" id="qualLiability" required />
+      <input type="text" id="signup-offer" required />
+      <button type="submit">Log Sign-Up</button>
+    </form>
+
+    <!-- Deposit -->
+    <form onsubmit="handleSubmit('Deposit'); return false;">
+      <h3>Log Deposit</h3>
+      <label>Bookmaker</label>
+      <input type="text" id="deposit-offer" required />
+      <label>Deposit Amount (£)</label>
+      <input type="number" id="deposit-amount" step="0.01" required />
+      <button type="submit">Log Deposit</button>
+    </form>
+
+    <!-- Qualifying Bet -->
+    <form onsubmit="handleSubmit('Qualifying Bet'); return false;">
+      <h3>Log Qualifying Bet</h3>
+      <label>Offer Name</label>
+      <input type="text" id="qb-offer" required />
+      <label>Back Amount (£)</label>
+      <input type="number" id="qb-back-amount" step="0.01" required />
+      <label>Lay Stake (£)</label>
+      <input type="number" id="qb-lay-stake" step="0.01" required />
+      <label>Liability (£)</label>
+      <input type="number" id="qb-liability" step="0.01" required />
       <button type="submit">Log Qualifying Bet</button>
     </form>
 
-    <!-- Free Bet Form -->
-    <form id="freeForm">
-      <h3>Log a Free Bet</h3>
+    <!-- Free Bet -->
+    <form onsubmit="handleSubmit('Free Bet'); return false;">
+      <h3>Log Free Bet</h3>
       <label>Offer Name</label>
-      <input type="text" id="freeOffer" required />
-      <label>Free Bet Amount</label>
-      <input type="number" id="freeAmount" required />
-      <label>Back Odds</label>
-      <input type="number" id="freeBackOdds" required />
+      <input type="text" id="fb-offer" required />
+      <label>Free Bet Amount (£)</label>
+      <input type="number" id="fb-amount" step="0.01" required />
       <label>Lay Odds</label>
-      <input type="number" id="freeLayOdds" required />
-      <label>Liability</label>
-      <input type="number" id="freeLiability" required />
+      <input type="number" id="fb-lay-odds" step="0.01" required />
+      <label>Back Odds</label>
+      <input type="number" id="fb-back-odds" step="0.01" required />
+      <label>Liability (£)</label>
+      <input type="number" id="fb-liability" step="0.01" required />
       <button type="submit">Log Free Bet</button>
     </form>
 
-    <!-- Table -->
-    <table id="logTable">
-      <thead>
-        <tr>
-          <th>Date</th>
-          <th>Offer</th>
-          <th>Type</th>
-          <th>Profit/Loss (£)</th>
-        </tr>
-      </thead>
-      <tbody></tbody>
+    <!-- Entries Table -->
+    <table id="expensesTable">
+      <tr><th>Date</th><th>Offer</th><th>Status</th><th>Profit/Loss</th></tr>
     </table>
-    <div class="summary" id="totalSummary">Total P/L: £0.00</div>
   </main>
-
-  <!-- Firebase SDK -->
-  <script type="module">
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
-    import { getFirestore, collection, addDoc, getDocs, onSnapshot } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
-    import { getAuth, signInAnonymously, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
-
-    const firebaseConfig = {
-      apiKey: "AIzaSyD8CRdx5VonpgIivDelnm3H0O8YN8dc38c",
-      authDomain: "unmatchedbetter.firebaseapp.com",
-      projectId: "unmatchedbetter",
-      storageBucket: "unmatchedbetter.firebasestorage.app",
-      messagingSenderId: "706155797600",
-      appId: "1:706155797600:web:5fe4b5711b204beeddb705",
-      measurementId: "G-K3YTJHX1FD"
-    };
-
-    const app = initializeApp(firebaseConfig);
-    const db = getFirestore(app);
-    const auth = getAuth();
-
-    let userId;
-
-    onAuthStateChanged(auth, user => {
-      if (user) {
-        userId = user.uid;
-        loadEntries();
-      } else {
-        signInAnonymously(auth);
-      }
-    });
-
-    async function loadEntries() {
-      const q = collection(db, "expenses", userId, "entries");
-      onSnapshot(q, snapshot => {
-        const table = document.querySelector("#logTable tbody");
-        table.innerHTML = "";
-        let total = 0;
-        snapshot.forEach(doc => {
-          const data = doc.data();
-          const row = document.createElement("tr");
-          row.innerHTML = `
-            <td>${new Date(data.date).toLocaleDateString()}</td>
-            <td>${data.offer}</td>
-            <td>${data.type}</td>
-            <td>${data.pl >= 0 ? "+" : ""}${data.pl.toFixed(2)}</td>
-          `;
-          total += data.pl;
-          table.appendChild(row);
-        });
-        document.getElementById("totalSummary").textContent = `Total P/L: £${total.toFixed(2)}`;
-      });
-    }
-
-    document.getElementById("qualifyingForm").addEventListener("submit", async e => {
-      e.preventDefault();
-      const offer = document.getElementById("qualOffer").value;
-      const back = parseFloat(document.getElementById("qualBack").value);
-      const lay = parseFloat(document.getElementById("qualLay").value);
-      const liability = parseFloat(document.getElementById("qualLiability").value);
-      const pl = -Math.abs(back - lay - liability);
-      await addDoc(collection(db, "expenses", userId, "entries"), {
-        type: "Qualifying Bet",
-        offer,
-        pl,
-        date: Date.now()
-      });
-      e.target.reset();
-    });
-
-    document.getElementById("freeForm").addEventListener("submit", async e => {
-      e.preventDefault();
-      const offer = document.getElementById("freeOffer").value;
-      const fbAmount = parseFloat(document.getElementById("freeAmount").value);
-      const backOdds = parseFloat(document.getElementById("freeBackOdds").value);
-      const layOdds = parseFloat(document.getElementById("freeLayOdds").value);
-      const liability = parseFloat(document.getElementById("freeLiability").value);
-      const backReturn = fbAmount * backOdds;
-      const layReturn = (fbAmount * (layOdds - 1)) - liability;
-      const pl = Math.max(layReturn, backReturn - fbAmount - liability); // conservative estimate
-      await addDoc(collection(db, "expenses", userId, "entries"), {
-        type: "Free Bet",
-        offer,
-        pl,
-        date: Date.now()
-      });
-      e.target.reset();
-    });
-  </script>
 </body>
 </html>
+
