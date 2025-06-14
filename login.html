@@ -2,14 +2,14 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Login | Unmatched Better</title>
   <link rel="stylesheet" href="style.css" />
   <style>
     body {
+      margin: 0;
       font-family: Arial, sans-serif;
       background: #f4f4f4;
-      margin: 0;
     }
 
     header {
@@ -20,12 +20,20 @@
 
     .navbar {
       display: flex;
-      justify-content: space-between;
       align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+    }
+
+    .navbar h1 {
+      margin: 0;
+      font-size: 1.5rem;
     }
 
     nav ul {
       list-style: none;
+      padding: 0;
+      margin: 0;
       display: flex;
       gap: 1rem;
     }
@@ -35,44 +43,53 @@
       text-decoration: none;
     }
 
+    nav ul li a.active,
+    nav ul li a:hover {
+      text-decoration: underline;
+    }
+
     main {
       padding: 2rem;
-      max-width: 400px;
-      margin: 3rem auto;
+      max-width: 500px;
+      margin: auto;
       background: white;
       border-radius: 10px;
-      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+      margin-top: 2rem;
     }
 
     h2 {
       text-align: center;
-      margin-bottom: 1.5rem;
+      margin-bottom: 1rem;
     }
 
-    input, button {
-      width: 100%;
-      padding: 0.75rem;
-      margin: 0.5rem 0;
+    form {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+
+    label {
+      font-weight: bold;
+    }
+
+    input {
+      padding: 0.5rem;
       border-radius: 5px;
       border: 1px solid #ccc;
     }
 
     button {
-      background: #28a745;
+      padding: 0.5rem;
+      background-color: #222;
       color: white;
-      font-weight: bold;
+      border: none;
+      border-radius: 5px;
       cursor: pointer;
     }
 
     button:hover {
-      background: #218838;
-    }
-
-    .toggle {
-      margin-top: 1rem;
-      text-align: center;
-      cursor: pointer;
-      color: #007bff;
+      background-color: #444;
     }
   </style>
 </head>
@@ -88,57 +105,48 @@
           <li><a href="offers.html">Offers</a></li>
           <li><a href="faq.html">FAQs</a></li>
           <li><a href="contact.html">Contact</a></li>
-          <a href="expenses.html">Expense Tracker</a>
+          <li><a href="expense-tracker.html">Expense Tracker</a></li>
         </ul>
       </nav>
     </div>
   </header>
 
   <main>
-    <h2 id="formTitle">Login</h2>
-    <form onsubmit="handleAuth(event)">
-      <input type="text" id="username" placeholder="Username" required />
-      <input type="password" id="password" placeholder="Password" required />
-      <button type="submit" id="authButton">Login</button>
+    <h2>Login</h2>
+    <form id="loginForm">
+      <label for="username">Username:</label>
+      <input type="text" id="username" required />
+
+      <label for="password">Password:</label>
+      <input type="password" id="password" required />
+
+      <button type="submit">Login</button>
     </form>
-    <div class="toggle" onclick="toggleMode()">Don't have an account? Create one</div>
   </main>
 
   <script>
-    let isLogin = true;
-
-    function toggleMode() {
-      isLogin = !isLogin;
-      document.getElementById("formTitle").innerText = isLogin ? "Login" : "Create Account";
-      document.getElementById("authButton").innerText = isLogin ? "Login" : "Create Account";
-      document.querySelector(".toggle").innerText = isLogin
-        ? "Don't have an account? Create one"
-        : "Already have an account? Login";
-    }
-
-    function handleAuth(e) {
+    document.getElementById('loginForm').addEventListener('submit', function(e) {
       e.preventDefault();
-      const username = document.getElementById("username").value.trim();
-      const password = document.getElementById("password").value;
 
-      if (!username || !password) return alert("Please fill in all fields.");
+      const username = document.getElementById('username').value.trim();
+      const password = document.getElementById('password').value.trim();
 
-      const userKey = `user-${username}`;
-      const stored = localStorage.getItem(userKey);
+      if (username && password) {
+        localStorage.setItem('username', username);
+        localStorage.setItem('isLoggedIn', 'true');
 
-      if (isLogin) {
-        if (!stored) return alert("User not found.");
-        const data = JSON.parse(stored);
-        if (data.password !== password) return alert("Incorrect password.");
-        localStorage.setItem("loggedInUser", username);
-        window.location.href = "tracker.html";
+        const previousPage = localStorage.getItem('lastPage') || 'index.html';
+        window.location.href = previousPage;
       } else {
-        if (stored) return alert("Username already taken.");
-        localStorage.setItem(userKey, JSON.stringify({ password }));
-        localStorage.setItem("loggedInUser", username);
-        window.location.href = "tracker.html";
+        alert('Please enter a username and password.');
       }
+    });
+
+    const referrer = document.referrer;
+    if (referrer && !referrer.includes('login.html')) {
+      localStorage.setItem('lastPage', referrer.substring(referrer.lastIndexOf('/') + 1));
     }
   </script>
 </body>
 </html>
+
