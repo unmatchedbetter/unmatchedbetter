@@ -7,8 +7,8 @@
   <link rel="stylesheet" href="style.css" />
   <style>
     body {
-      font-family: Arial, sans-serif;
       margin: 0;
+      font-family: Arial, sans-serif;
       background: #f4f4f4;
     }
 
@@ -48,43 +48,49 @@
       text-decoration: underline;
     }
 
+    main {
+      padding: 2rem;
+      max-width: 900px;
+      margin: auto;
+      background: white;
+      border-radius: 10px;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+      margin-top: 2rem;
+    }
+
     h2 {
       text-align: center;
-      margin-top: 1rem;
+      margin-bottom: 1rem;
     }
 
-    .filter-container {
-      text-align: center;
-      margin: 1rem;
-    }
-
-    .filter-container select {
-      padding: 0.5rem;
-      font-size: 1rem;
-    }
-
-    .offers-container {
+    .offers-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
       gap: 1.5rem;
-      padding: 2rem;
+      margin-top: 2rem;
     }
 
     .offer-card {
-      background: white;
-      border-radius: 10px;
+      background-color: #fafafa;
+      border: 1px solid #ddd;
       padding: 1rem;
-      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
-      transition: transform 0.2s ease;
-    }
-
-    .offer-card:hover {
-      transform: translateY(-5px);
+      border-radius: 8px;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.1);
     }
 
     .offer-card h3 {
-      margin: 0 0 0.5rem;
-      font-size: 1.1rem;
+      margin-top: 0;
+    }
+
+    .offer-card a {
+      display: inline-block;
+      margin-top: 0.5rem;
+      color: #007BFF;
+      text-decoration: none;
+    }
+
+    .offer-card a:hover {
+      text-decoration: underline;
     }
   </style>
 </head>
@@ -100,73 +106,43 @@
           <li><a href="offers.html" class="active">Offers</a></li>
           <li><a href="faq.html">FAQs</a></li>
           <li><a href="contact.html">Contact</a></li>
+          <li><a href="login.html">Login</a></li>
+          <li><a href="expenses.html">Expenses</a></li>
         </ul>
       </nav>
     </div>
   </header>
 
-  <h2>Sign-Up Offers</h2>
-
-  <div class="filter-container">
-    <label for="sort">Sort by:</label>
-    <select id="sort" onchange="sortOffers()">
-      <option value="default">Default</option>
-      <option value="high-to-low">Highest to Lowest</option>
-      <option value="low-to-high">Lowest to Highest</option>
-    </select>
-  </div>
-
   <main>
-    <div id="offers" class="offers-container">
-      <div class="offer-card" data-value="30"><h3>Bet365 – Bet £10 Get £30</h3></div>
-      <div class="offer-card" data-value="40"><h3>Sky Bet – Bet £5 Get £40</h3></div>
-      <div class="offer-card" data-value="30"><h3>William Hill – Bet £10 Get £30</h3></div>
-      <div class="offer-card" data-value="20"><h3>Ladbrokes – Bet £5 Get £20</h3></div>
-      <div class="offer-card" data-value="20"><h3>Coral – Bet £5 Get £20</h3></div>
-      <div class="offer-card" data-value="20"><h3>Paddy Power – Bet £10 Get £20</h3></div>
-      <div class="offer-card" data-value="30"><h3>Betfair – Bet £10 Get £30</h3></div>
-      <div class="offer-card" data-value="30"><h3>Unibet – Bet £40 Get £30</h3></div>
-      <div class="offer-card" data-value="50"><h3>Betfred – Bet £10 Get £50</h3></div>
-      <div class="offer-card" data-value="20"><h3>Virgin Bet – Bet £10 Get £20</h3></div>
-      <div class="offer-card" data-value="50"><h3>Parimatch – Bet £10 Get £40 + £10 Slots</h3></div>
-      <div class="offer-card" data-value="20"><h3>LiveScore Bet – Bet £10 Get £20</h3></div>
-      <div class="offer-card" data-value="30"><h3>Tote – Bet £10 Get £30 + 20 Spins</h3></div>
-      <div class="offer-card" data-value="10"><h3>BetGoodwin – Bet £10 Get £10</h3></div>
-      <div class="offer-card" data-value="60"><h3>Spreadex – Bet £10 Get £60</h3></div>
-      <div class="offer-card" data-value="40"><h3>BetMGM – Bet £10 Get £40</h3></div>
-      <div class="offer-card" data-value="30"><h3>SBK – Bet £10 Get £30</h3></div>
-      <div class="offer-card" data-value="30"><h3>BetBright – Bet £10 Get £30</h3></div>
-      <div class="offer-card" data-value="20"><h3>BetBull – Bet £10 Get £20</h3></div>
-      <div class="offer-card" data-value="10"><h3>Betdaq – Bet £10 Get £10</h3></div>
-      <div class="offer-card" data-value="30"><h3>CopyBet – Bet £10 Get £30</h3></div>
-      <div class="offer-card" data-value="30"><h3>BetUK – Bet £10 Get £30</h3></div>
-      <div class="offer-card" data-value="20"><h3>Hollywoodbets – Bet £10 Get £20</h3></div>
-      <div class="offer-card" data-value="10"><h3>DAZN Bet – Bet £10 Get £10</h3></div>
-      <div class="offer-card" data-value="30"><h3>JeffBet – Bet £10 Get £30</h3></div>
-      <div class="offer-card" data-value="30"><h3>10bet – Bet £15 Get £30</h3></div>
-      <div class="offer-card" data-value="30"><h3>Betano – Bet £10 Get £30</h3></div>
-      <div class="offer-card" data-value="20"><h3>Tangobet – Bet £20 Get £20</h3></div>
-      <div class="offer-card" data-value="10"><h3>7Bet – Bet £10 Get £10</h3></div>
+    <h2>Welcome Offers</h2>
+    <div class="offers-grid">
+      <div class="offer-card"><h3>Bet365</h3><p>Bet £10 get £30 in free bets</p><a href="#">Claim Offer</a></div>
+      <div class="offer-card"><h3>William Hill</h3><p>Bet £10 get £30 in free bets</p><a href="#">Claim Offer</a></div>
+      <div class="offer-card"><h3>Sky Bet</h3><p>£20 in free bets when you bet £5</p><a href="#">Claim Offer</a></div>
+      <div class="offer-card"><h3>Paddy Power</h3><p>£20 risk-free first bet</p><a href="#">Claim Offer</a></div>
+      <div class="offer-card"><h3>Betfair</h3><p>£30 in free bets when you bet £10</p><a href="#">Claim Offer</a></div>
+      <div class="offer-card"><h3>Betfred</h3><p>Bet £10 get £40 in bonuses</p><a href="#">Claim Offer</a></div>
+      <div class="offer-card"><h3>Coral</h3><p>Bet £5 get £20</p><a href="#">Claim Offer</a></div>
+      <div class="offer-card"><h3>Ladbrokes</h3><p>Bet £5 get £20 in free bets</p><a href="#">Claim Offer</a></div>
+      <div class="offer-card"><h3>Unibet</h3><p>Money back up to £40 if your first bet loses</p><a href="#">Claim Offer</a></div>
+      <div class="offer-card"><h3>Virgin Bet</h3><p>Bet £10 get £20</p><a href="#">Claim Offer</a></div>
+      <div class="offer-card"><h3>888sport</h3><p>Bet £10 get £30 in free bets + £10 casino bonus</p><a href="#">Claim Offer</a></div>
+      <div class="offer-card"><h3>QuinnBet</h3><p>Get 50% back as a free bet up to £35</p><a href="#">Claim Offer</a></div>
+      <div class="offer-card"><h3>LiveScore Bet</h3><p>Bet £10 get £20 in free bets</p><a href="#">Claim Offer</a></div>
+      <div class="offer-card"><h3>BoyleSports</h3><p>Bet £10 get £20 in free bets</p><a href="#">Claim Offer</a></div>
+      <div class="offer-card"><h3>Betway</h3><p>£30 matched free bet if your first bet loses</p><a href="#">Claim Offer</a></div>
+      <div class="offer-card"><h3>BetUK</h3><p>Bet £10 get £30</p><a href="#">Claim Offer</a></div>
+      <div class="offer-card"><h3>Mr Green</h3><p>Bet £10 get £10 free bet + 50 free spins</p><a href="#">Claim Offer</a></div>
+      <div class="offer-card"><h3>Sporting Index</h3><p>£75 in free bets</p><a href="#">Claim Offer</a></div>
+      <div class="offer-card"><h3>Midnite</h3><p>Bet £10 get £20</p><a href="#">Claim Offer</a></div>
+      <div class="offer-card"><h3>Betgoodwin</h3><p>100% deposit bonus up to £25</p><a href="#">Claim Offer</a></div>
+      <div class="offer-card"><h3>TalkSport Bet</h3><p>Bet £10 get £20</p><a href="#">Claim Offer</a></div>
+      <div class="offer-card"><h3>Betzone</h3><p>£60 in free bets</p><a href="#">Claim Offer</a></div>
+      <div class="offer-card"><h3>Kwiff</h3><p>Bet £10 get £30 in free bets</p><a href="#">Claim Offer</a></div>
+      <div class="offer-card"><h3>BetVictor</h3><p>Bet £5 get £30</p><a href="#">Claim Offer</a></div>
+      <div class="offer-card"><h3>Parimatch</h3><p>Bet £5 get £30</p><a href="#">Claim Offer</a></div>
+      <div class="offer-card"><h3>BetMGM</h3><p>Bet £10 get £40 in free bets</p><a href="#">Claim Offer</a></div>
     </div>
   </main>
-
-  <script>
-    function sortOffers() {
-      const container = document.getElementById('offers');
-      const cards = Array.from(container.getElementsByClassName('offer-card'));
-      const sort = document.getElementById('sort').value;
-
-      if (sort === 'high-to-low') {
-        cards.sort((a, b) => +b.dataset.value - +a.dataset.value);
-      } else if (sort === 'low-to-high') {
-        cards.sort((a, b) => +a.dataset.value - +b.dataset.value);
-      } else {
-        return; // default order, no change
-      }
-
-      container.innerHTML = '';
-      cards.forEach(card => container.appendChild(card));
-    }
-  </script>
 </body>
 </html>
