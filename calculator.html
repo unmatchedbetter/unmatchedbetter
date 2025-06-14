@@ -27,6 +27,11 @@
       margin-top: 1rem;
       font-weight: bold;
     }
+    h2 {
+      margin-top: 3rem;
+      border-bottom: 1px solid #ddd;
+      padding-bottom: 0.5rem;
+    }
   </style>
 </head>
 <body>
@@ -48,22 +53,43 @@
   </header>
 
   <main class="container">
-    <h1>Free Bet Calculator</h1>
+    <h1>Matched Betting Calculators</h1>
+
+    <h2>Free Bet Calculator</h2>
     <div class="calculator">
       <label for="freeBet">Free Bet Amount (£)</label>
       <input type="number" id="freeBet" value="10">
 
-      <label for="backOdds">Back Odds</label>
-      <input type="number" step="0.01" id="backOdds" value="4.0">
+      <label for="freeBackOdds">Back Odds</label>
+      <input type="number" step="0.01" id="freeBackOdds" value="4.0">
 
-      <label for="layOdds">Lay Odds</label>
-      <input type="number" step="0.01" id="layOdds" value="3.9">
+      <label for="freeLayOdds">Lay Odds</label>
+      <input type="number" step="0.01" id="freeLayOdds" value="3.9">
 
-      <label for="commission">Lay Commission (%)</label>
-      <input type="number" step="0.1" id="commission" value="2">
+      <label for="freeCommission">Lay Commission (%)</label>
+      <input type="number" step="0.1" id="freeCommission" value="2">
 
-      <output id="layStake">Lay Stake: £0.00</output>
-      <output id="liability">Liability: £0.00</output>
+      <output id="freeLayStake">Lay Stake: £0.00</output>
+      <output id="freeLiability">Liability: £0.00</output>
+    </div>
+
+    <h2>Qualifying Bet Calculator</h2>
+    <div class="calculator">
+      <label for="qualStake">Back Stake (£)</label>
+      <input type="number" id="qualStake" value="10">
+
+      <label for="qualBackOdds">Back Odds</label>
+      <input type="number" step="0.01" id="qualBackOdds" value="2.0">
+
+      <label for="qualLayOdds">Lay Odds</label>
+      <input type="number" step="0.01" id="qualLayOdds" value="1.95">
+
+      <label for="qualCommission">Lay Commission (%)</label>
+      <input type="number" step="0.1" id="qualCommission" value="2">
+
+      <output id="qualLayStake">Lay Stake: £0.00</output>
+      <output id="qualLiability">Liability: £0.00</output>
+      <output id="qualLoss">Qualifying Loss: £0.00</output>
     </div>
   </main>
 
@@ -72,25 +98,55 @@
   </footer>
 
   <script>
-    function calculate() {
+    function calcFreeBet() {
       const freeBet = parseFloat(document.getElementById('freeBet').value);
-      const backOdds = parseFloat(document.getElementById('backOdds').value);
-      const layOdds = parseFloat(document.getElementById('layOdds').value);
-      const commission = parseFloat(document.getElementById('commission').value) / 100;
+      const backOdds = parseFloat(document.getElementById('freeBackOdds').value);
+      const layOdds = parseFloat(document.getElementById('freeLayOdds').value);
+      const commission = parseFloat(document.getElementById('freeCommission').value) / 100;
 
-      // Formula for lay stake from a free bet
       const layStake = (freeBet * (backOdds - 1)) / (layOdds - commission);
       const liability = layStake * (layOdds - 1);
 
-      document.getElementById('layStake').textContent = "Lay Stake: £" + layStake.toFixed(2);
-      document.getElementById('liability').textContent = "Liability: £" + liability.toFixed(2);
+      document.getElementById('freeLayStake').textContent = "Lay Stake: £" + layStake.toFixed(2);
+      document.getElementById('freeLiability').textContent = "Liability: £" + liability.toFixed(2);
+    }
+
+    function calcQualBet() {
+      const stake = parseFloat(document.getElementById('qualStake').value);
+      const backOdds = parseFloat(document.getElementById('qualBackOdds').value);
+      const layOdds = parseFloat(document.getElementById('qualLayOdds').value);
+      const commission = parseFloat(document.getElementById('qualCommission').value) / 100;
+
+      const layStake = (stake * backOdds) / (layOdds - commission);
+      const liability = layStake * (layOdds - 1);
+
+      // Calculate potential returns
+      const backWinProfit = (stake * (backOdds - 1));
+      const layLoss = liability;
+
+      const layWinProfit = layStake * (1 - commission);
+      const backLoss = stake;
+
+      const lossBackWins = backWinProfit - layLoss;
+      const lossLayWins = layWinProfit - backLoss;
+
+      const qualLoss = Math.abs((lossBackWins + lossLayWins) / 2);
+
+      document.getElementById('qualLayStake').textContent = "Lay Stake: £" + layStake.toFixed(2);
+      document.getElementById('qualLiability').textContent = "Liability: £" + liability.toFixed(2);
+      document.getElementById('qualLoss').textContent = "Qualifying Loss: £" + qualLoss.toFixed(2);
     }
 
     document.querySelectorAll('input').forEach(input => {
-      input.addEventListener('input', calculate);
+      input.addEventListener('input', () => {
+        calcFreeBet();
+        calcQualBet();
+      });
     });
 
-    calculate(); // Initial run
+    // Initial run
+    calcFreeBet();
+    calcQualBet();
   </script>
 </body>
 </html>
