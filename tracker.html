@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Expense Tracker | Unmatched Better</title>
+  <link rel="stylesheet" href="style.css" />
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f4f4f4;
+      margin: 0;
+    }
+
+    header {
+      background-color: #222;
+      color: white;
+      padding: 1rem 2rem;
+    }
+
+    .navbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+    }
+
+    .navbar h1 {
+      margin: 0;
+      font-size: 1.5rem;
+    }
+
+    nav ul {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      display: flex;
+      gap: 1rem;
+    }
+
+    nav ul li a {
+      color: white;
+      text-decoration: none;
+    }
+
+    nav ul li a.active,
+    nav ul li a:hover {
+      text-decoration: underline;
+    }
+
+    main {
+      padding: 2rem;
+      max-width: 700px;
+      margin: 2rem auto;
+      background: white;
+      border-radius: 10px;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+    }
+
+    h2 {
+      text-align: center;
+    }
+
+    input, textarea, button {
+      width: 100%;
+      padding: 0.75rem;
+      margin: 0.5rem 0;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+    }
+
+    button {
+      background-color: #28a745;
+      color: white;
+      font-weight: bold;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+
+    button:hover {
+      background-color: #218838;
+    }
+
+    table {
+      width: 100%;
+      margin-top: 2rem;
+      border-collapse: collapse;
+    }
+
+    th, td {
+      padding: 0.75rem;
+      border: 1px solid #ddd;
+      text-align: center;
+    }
+
+    .logout {
+      margin-top: 1rem;
+      text-align: right;
+    }
+
+    .logout button {
+      background: #dc3545;
+    }
+
+    .logout button:hover {
+      background: #b02a37;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="navbar">
+      <h1>Unmatched Better</h1>
+      <nav>
+        <ul>
+          <li><a href="index.html">Home</a></li>
+          <li><a href="how-it-works.html">How It Works</a></li>
+          <li><a href="calculator.html">Calculator</a></li>
+          <li><a href="offers.html">Offers</a></li>
+          <li><a href="faq.html">FAQs</a></li>
+          <li><a href="contact.html">Contact</a></li>
+          <li><a href="login.html">Login</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <h2>Expense Tracker</h2>
+
+    <div class="logout">
+      <button onclick="logout()">Logout</button>
+    </div>
+
+    <form onsubmit="saveEntry(event)">
+      <input type="text" id="event" placeholder="Event / Bookmaker" required />
+      <input type="number" id="stake" placeholder="Stake (£)" step="0.01" required />
+      <input type="number" id="return" placeholder="Return (£)" step="0.01" required />
+      <textarea id="notes" placeholder="Notes (optional)"></textarea>
+      <button type="submit">Add Entry</button>
+    </form>
+
+    <table id="logTable">
+      <thead>
+        <tr>
+          <th>Event</th>
+          <th>Stake (£)</th>
+          <th>Return (£)</th>
+          <th>Profit (£)</th>
+          <th>Notes</th>
+        </tr>
+      </thead>
+      <tbody>
+        <!-- Entries will go here -->
+      </tbody>
+    </table>
+  </main>
+
+  <script>
+    const user = localStorage.getItem("loggedInUser");
+    const key = `expenses-${user}`;
+    const tableBody = document.querySelector("#logTable tbody");
+
+    if (!user) {
+      alert("Please log in first.");
+      window.location.href = "login.html";
+    }
+
+    const loadEntries = () => {
+      const data = JSON.parse(localStorage.getItem(key)) || [];
+      tableBody.innerHTML = "";
+      data.forEach(entry => {
+        const row = document.createElement("tr");
+        row.innerHTML = `
+          <td>${entry.event}</td>
+          <td>${entry.stake.toFixed(2)}</td>
+          <td>${entry.return.toFixed(2)}</td>
+          <td>${(entry.return - entry.stake).toFixed(2)}</td>
+          <td>${entry.notes || ""}</td>
+        `;
+        tableBody.appendChild(row);
+      });
+    };
+
+    const saveEntry = (e) => {
+      e.preventDefault();
+      const event = document.getElementById("event").value;
+      const stake = parseFloat(document.getElementById("stake").value);
+      const ret = parseFloat(document.getElementById("return").value);
+      const notes = document.getElementById("notes").value;
+
+      const newEntry = { event, stake, return: ret, notes };
+      const data = JSON.parse(localStorage.getItem(key)) || [];
+      data.push(newEntry);
+      localStorage.setItem(key, JSON.stringify(data));
+      loadEntries();
+      e.target.reset();
+    };
+
+    const logout = () => {
+      localStorage.removeItem("loggedInUser");
+      window.location.href = "login.html";
+    };
+
+    loadEntries();
+  </script>
+</body>
+</html>
