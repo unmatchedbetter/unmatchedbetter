@@ -1,9 +1,3 @@
-<script>
-  // Redirect to login if not logged in
-  if (localStorage.getItem('loggedIn') !== 'true') {
-    window.location.href = 'login.html';
-  }
-</script>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -12,30 +6,27 @@
   <title>Offers | Unmatched Better</title>
   <link rel="stylesheet" href="style.css" />
   <style>
+    /* (Same styles as before) */
     body {
       margin: 0;
       font-family: Arial, sans-serif;
       background: #f4f4f4;
     }
-
     header {
       background-color: #222;
       color: white;
       padding: 1rem 2rem;
     }
-
     .navbar {
       display: flex;
       align-items: center;
       justify-content: space-between;
       flex-wrap: wrap;
     }
-
     .navbar h1 {
       margin: 0;
       font-size: 1.5rem;
     }
-
     nav ul {
       list-style: none;
       padding: 0;
@@ -43,17 +34,14 @@
       display: flex;
       gap: 1rem;
     }
-
     nav ul li a {
       color: white;
       text-decoration: none;
     }
-
     nav ul li a.active,
     nav ul li a:hover {
       text-decoration: underline;
     }
-
     main {
       padding: 2rem;
       max-width: 1000px;
@@ -63,29 +51,24 @@
       box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
       margin-top: 2rem;
     }
-
     h2 {
       text-align: center;
       margin-bottom: 1rem;
     }
-
     .filter-bar {
       text-align: right;
       margin-bottom: 1rem;
     }
-
     select {
       padding: 0.5rem;
       border-radius: 5px;
       border: 1px solid #ccc;
     }
-
     .offers-grid {
       display: grid;
       grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
       gap: 1.5rem;
     }
-
     .offer-card {
       background-color: #fafafa;
       border: 1px solid #ddd;
@@ -93,37 +76,39 @@
       border-radius: 8px;
       box-shadow: 0 1px 3px rgba(0,0,0,0.1);
     }
-
     .offer-card h3 {
       margin-top: 0;
     }
-
     .offer-card a {
       display: inline-block;
       margin-top: 0.5rem;
       color: #007BFF;
       text-decoration: none;
     }
-
     .offer-card a:hover {
       text-decoration: underline;
     }
   </style>
 </head>
 <body>
+  <script>
+    if (localStorage.getItem('loggedIn') !== 'true') {
+      window.location.href = 'login.html';
+    }
+  </script>
+
   <header>
     <div class="navbar">
       <h1>Unmatched Better</h1>
       <nav>
         <ul>
-          <li><a href="index.html">Home</a></li>
+          <li><a href="home.html">Home</a></li>
           <li><a href="how-it-works.html">How It Works</a></li>
           <li><a href="calculator.html">Calculator</a></li>
           <li><a href="offers.html" class="active">Offers</a></li>
           <li><a href="faq.html">FAQs</a></li>
           <li><a href="contact.html">Contact</a></li>
-          <li><a href="login.html">Login</a></li>
-        <a href="expenses.html">Expense Tracker</a>
+          <li><a href="expense-tracker.html">Expense Tracker</a></li>
         </ul>
       </nav>
     </div>
@@ -140,9 +125,7 @@
       </select>
     </div>
 
-    <div class="offers-grid" id="offersContainer">
-      <!-- Offers will be dynamically inserted here -->
-    </div>
+    <div class="offers-grid" id="offersContainer"></div>
   </main>
 
   <script>
@@ -194,7 +177,6 @@
       renderOffers(sorted);
     }
 
-    // Initial render
     sortOffers();
   </script>
 </body>
