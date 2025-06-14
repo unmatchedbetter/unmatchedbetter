@@ -1,169 +1,69 @@
+<main>
+  <h2>Matched Betting Calculators</h2>
+
+  <!-- Qualifying Bet Calculator -->
+  <section>
+    <h3>Qualifying Bet Calculator</h3>
+    <form id="qualifyingForm">
+      <label>Back Stake (£): <input type="number" id="qualBackStake" step="0.01" required></label>
+      <label>Back Odds: <input type="number" id="qualBackOdds" step="0.01" required></label>
+      <label>Lay Odds: <input type="number" id="qualLayOdds" step="0.01" required></label>
+      <label>Commission (%): <input type="number" id="qualCommission" value="2" step="0.01" required></label>
+      <button type="submit">Calculate</button>
+    </form>
+    <div id="qualResult" class="result"></div>
+  </section>
+
+  <!-- Free Bet Calculator -->
+  <section>
+    <h3>Free Bet Calculator (SNR)</h3>
+    <form id="freebetForm">
+      <label>Free Bet Amount (£): <input type="number" id="freebetAmount" step="0.01" required></label>
+      <label>Back Odds: <input type="number" id="freebetBackOdds" step="0.01" required></label>
+      <label>Lay Odds: <input type="number" id="freebetLayOdds" step="0.01" required></label>
+      <label>Commission (%): <input type="number" id="freebetCommission" value="2" step="0.01" required></label>
+      <button type="submit">Calculate</button>
+    </form>
+    <div id="freebetResult" class="result"></div>
+  </section>
+</main>
+
 <script>
-  // Redirect to login if not logged in
-  if (localStorage.getItem('loggedIn') !== 'true') {
-    window.location.href = 'login.html';
-  }
+  // Qualifying Bet Calculator
+  document.getElementById('qualifyingForm').addEventListener('submit', function(e) {
+    e.preventDefault();
+    const backStake = parseFloat(document.getElementById('qualBackStake').value);
+    const backOdds = parseFloat(document.getElementById('qualBackOdds').value);
+    const layOdds = parseFloat(document.getElementById('qualLayOdds').value);
+    const commission = parseFloat(document.getElementById('qualCommission').value) / 100;
+
+    const layStake = (backStake * backOdds) / (layOdds - commission);
+    const liability = layStake * (layOdds - 1);
+    const backProfit = backStake * (backOdds - 1);
+    const layLoss = layStake * commission;
+    const expectedLoss = Math.abs(backProfit - liability - layLoss);
+
+    document.getElementById('qualResult').innerHTML =
+      `Lay Stake: £${layStake.toFixed(2)}<br>` +
+      `Liability: £${liability.toFixed(2)}<br>` +
+      `Expected Loss: £${expectedLoss.toFixed(2)}`;
+  });
+
+  // Free Bet Calculator
+  document.getElementById('freebetForm').addEventListener('submit', function(e) {
+    e.preventDefault();
+    const freeBet = parseFloat(document.getElementById('freebetAmount').value);
+    const backOdds = parseFloat(document.getElementById('freebetBackOdds').value);
+    const layOdds = parseFloat(document.getElementById('freebetLayOdds').value);
+    const commission = parseFloat(document.getElementById('freebetCommission').value) / 100;
+
+    const layStake = (freeBet * (backOdds - 1)) / (layOdds - commission);
+    const liability = layStake * (layOdds - 1);
+    const layProfit = layStake * (1 - commission);
+
+    document.getElementById('freebetResult').innerHTML =
+      `Lay Stake: £${layStake.toFixed(2)}<br>` +
+      `Liability: £${liability.toFixed(2)}<br>` +
+      `Expected Profit: £${layProfit.toFixed(2)}`;
+  });
 </script>
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Calculator | Unmatched Better</title>
-  <link rel="stylesheet" href="style.css" />
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      margin: 0;
-      background-color: #f4f4f4;
-    }
-    header {
-      background-color: #222;
-      color: white;
-      padding: 1rem 2rem;
-    }
-    .navbar {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      flex-wrap: wrap;
-    }
-    nav ul {
-      display: flex;
-      list-style: none;
-      padding: 0;
-      margin: 0;
-      gap: 1rem;
-    }
-    nav ul li a {
-      color: white;
-      text-decoration: none;
-    }
-    nav ul li a.active,
-    nav ul li a:hover {
-      text-decoration: underline;
-    }
-    main {
-      padding: 2rem;
-      max-width: 800px;
-      margin: auto;
-      background: white;
-      margin-top: 2rem;
-      border-radius: 10px;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-    }
-    h2 {
-      text-align: center;
-      margin-bottom: 2rem;
-    }
-    form {
-      margin-bottom: 2rem;
-    }
-    input {
-      padding: 0.5rem;
-      margin: 0.5rem 0;
-      width: 100%;
-      box-sizing: border-box;
-    }
-    button {
-      padding: 0.7rem 1.5rem;
-      background: #007bff;
-      color: white;
-      border: none;
-      border-radius: 5px;
-      margin-top: 1rem;
-      cursor: pointer;
-    }
-    button:hover {
-      background: #0056b3;
-    }
-    .result {
-      margin-top: 1rem;
-      font-weight: bold;
-    }
-  </style>
-</head>
-<body>
-  <header>
-    <div class="navbar">
-      <h1>Unmatched Better</h1>
-      <nav>
-        <ul>
-          <li><a href="home.html">Home</a></li>
-          <li><a href="how-it-works.html">How It Works</a></li>
-          <li><a href="calculator.html" class="active">Calculator</a></li>
-          <li><a href="offers.html">Offers</a></li>
-          <li><a href="faq.html">FAQs</a></li>
-          <li><a href="contact.html">Contact</a></li>
-          <li><a href="expense-tracker.html">Expense Tracker</a></li>
-        </ul>
-      </nav>
-    </div>
-  </header>
-
-  <main>
-    <h2>Matched Betting Calculators</h2>
-
-    <!-- Qualifying Bet Calculator -->
-    <section>
-      <h3>Qualifying Bet Calculator</h3>
-      <form id="qualifyingForm">
-        <label>Back Stake (£): <input type="number" id="qualBackStake" step="0.01" required></label>
-        <label>Back Odds: <input type="number" id="qualBackOdds" step="0.01" required></label>
-        <label>Lay Odds: <input type="number" id="qualLayOdds" step="0.01" required></label>
-        <label>Commission (%): <input type="number" id="qualCommission" value="2" step="0.01" required></label>
-        <button type="submit">Calculate</button>
-      </form>
-      <div id="qualResult" class="result"></div>
-    </section>
-
-    <!-- Free Bet Calculator -->
-    <section>
-      <h3>Free Bet Calculator</h3>
-      <form id="freebetForm">
-        <label>Free Bet Amount (£): <input type="number" id="freebetAmount" step="0.01" required></label>
-        <label>Back Odds: <input type="number" id="freebetBackOdds" step="0.01" required></label>
-        <label>Lay Odds: <input type="number" id="freebetLayOdds" step="0.01" required></label>
-        <label>Commission (%): <input type="number" id="freebetCommission" value="2" step="0.01" required></label>
-        <button type="submit">Calculate</button>
-      </form>
-      <div id="freebetResult" class="result"></div>
-    </section>
-  </main>
-
-  <script>
-    // Qualifying Bet Calculator
-    document.getElementById('qualifyingForm').addEventListener('submit', function(e) {
-      e.preventDefault();
-      const stake = parseFloat(document.getElementById('qualBackStake').value);
-      const backOdds = parseFloat(document.getElementById('qualBackOdds').value);
-      const layOdds = parseFloat(document.getElementById('qualLayOdds').value);
-      const commission = parseFloat(document.getElementById('qualCommission').value) / 100;
-
-      const layStake = (backOdds * stake - stake) / (layOdds - commission);
-      const liability = layStake * (layOdds - 1);
-      const backWin = (backOdds - 1) * stake;
-      const layLoss = layStake * commission;
-      const expectedLoss = Math.abs(backWin - layLoss - liability);
-
-      document.getElementById('qualResult').innerHTML =
-        `Lay Stake: £${layStake.toFixed(2)}<br>Liability: £${liability.toFixed(2)}<br>Expected Loss: £${expectedLoss.toFixed(2)}`;
-    });
-
-    // Free Bet Calculator
-    document.getElementById('freebetForm').addEventListener('submit', function(e) {
-      e.preventDefault();
-      const freeBet = parseFloat(document.getElementById('freebetAmount').value);
-      const backOdds = parseFloat(document.getElementById('freebetBackOdds').value);
-      const layOdds = parseFloat(document.getElementById('freebetLayOdds').value);
-      const commission = parseFloat(document.getElementById('freebetCommission').value) / 100;
-
-      const layStake = (freeBet * (backOdds - 1)) / (layOdds - commission);
-      const profit = layStake * (1 - commission);
-
-      document.getElementById('freebetResult').innerHTML =
-        `Lay Stake: £${layStake.toFixed(2)}<br>Profit: £${profit.toFixed(2)}`;
-    });
-  </script>
-</body>
-</html>
