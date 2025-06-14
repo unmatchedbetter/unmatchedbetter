@@ -5,74 +5,12 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Expense Tracker | Unmatched Better</title>
   <link rel="stylesheet" href="style.css" />
-  <script type="module">
-    // Firebase SDKs
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
-    import { getAuth, signInAnonymously, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
-    import { getFirestore, collection, addDoc, getDocs, onSnapshot } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
-
-    const firebaseConfig = {
-      apiKey: "AIzaSyD8CRdx5VonpgIivDelnm3H0O8YN8dc38c",
-      authDomain: "unmatchedbetter.firebaseapp.com",
-      projectId: "unmatchedbetter",
-      storageBucket: "unmatchedbetter.firebasestorage.app",
-      messagingSenderId: "706155797600",
-      appId: "1:706155797600:web:5fe4b5711b204beeddb705",
-      measurementId: "G-K3YTJHX1FD"
-    };
-
-    const app = initializeApp(firebaseConfig);
-    const auth = getAuth();
-    const db = getFirestore(app);
-
-    let userId = null;
-
-    signInAnonymously(auth)
-      .catch(error => console.error("Firebase auth error:", error));
-
-    onAuthStateChanged(auth, (user) => {
-      if (user) {
-        userId = user.uid;
-        loadExpenses();
-      }
-    });
-
-    async function addExpense(event) {
-      event.preventDefault();
-      const description = document.getElementById('description').value;
-      const amount = parseFloat(document.getElementById('amount').value);
-      const type = document.getElementById('type').value;
-
-      if (!description || isNaN(amount) || !type) return;
-
-      await addDoc(collection(db, "users", userId, "expenses"), {
-        description,
-        amount,
-        type,
-        created: new Date()
-      });
-
-      document.getElementById('expense-form').reset();
-    }
-
-    async function loadExpenses() {
-      const list = document.getElementById('expense-list');
-      list.innerHTML = '';
-      const snapshot = await getDocs(collection(db, "users", userId, "expenses"));
-
-      snapshot.forEach(doc => {
-        const data = doc.data();
-        const item = document.createElement('li');
-        item.textContent = `${data.description} - £${data.amount.toFixed(2)} (${data.type})`;
-        list.appendChild(item);
-      });
-    }
-  </script>
   <style>
     body {
-      margin: 0;
       font-family: Arial, sans-serif;
-      background: #f4f4f4;
+      background: #f5f5f5;
+      margin: 0;
+      padding: 0;
     }
 
     header {
@@ -83,22 +21,16 @@
 
     .navbar {
       display: flex;
-      align-items: center;
       justify-content: space-between;
-      flex-wrap: wrap;
-    }
-
-    .navbar h1 {
-      margin: 0;
-      font-size: 1.5rem;
+      align-items: center;
     }
 
     nav ul {
       list-style: none;
-      padding: 0;
-      margin: 0;
       display: flex;
       gap: 1rem;
+      margin: 0;
+      padding: 0;
     }
 
     nav ul li a {
@@ -106,53 +38,63 @@
       text-decoration: none;
     }
 
-    nav ul li a.active,
-    nav ul li a:hover {
-      text-decoration: underline;
-    }
-
     main {
       padding: 2rem;
-      max-width: 800px;
+      max-width: 1000px;
       margin: auto;
       background: white;
       border-radius: 10px;
-      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
       margin-top: 2rem;
-    }
-
-    h2 {
-      text-align: center;
-      margin-bottom: 1rem;
-    }
-
-    form {
-      display: flex;
-      flex-direction: column;
-      gap: 1rem;
-      margin-bottom: 2rem;
     }
 
     input, select {
       padding: 0.5rem;
-      border-radius: 5px;
+      margin-bottom: 1rem;
+      width: 100%;
+      box-sizing: border-box;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 1rem;
+    }
+
+    th, td {
       border: 1px solid #ccc;
-    }
-
-    ul {
-      list-style: none;
-      padding: 0;
-    }
-
-    li {
-      background: #eee;
-      margin: 0.5rem 0;
       padding: 0.5rem;
-      border-radius: 5px;
+      text-align: center;
+    }
+
+    .summary {
+      margin-top: 1rem;
+      padding: 1rem;
+      background: #eef;
+      border: 1px solid #ccd;
+    }
+
+    .btn {
+      padding: 0.5rem 1rem;
+      margin: 0.5rem 0;
+      background: #007BFF;
+      color: white;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+
+    .btn-danger {
+      background: #dc3545;
     }
   </style>
 </head>
 <body>
+  <script>
+    if (localStorage.getItem('loggedIn') !== 'true') {
+      window.location.href = 'login.html';
+    }
+  </script>
+
   <header>
     <div class="navbar">
       <h1>Unmatched Better</h1>
@@ -172,27 +114,175 @@
 
   <main>
     <h2>Expense Tracker</h2>
-    <form id="expense-form" onsubmit="addExpense(event)">
-      <label for="description">Description</label>
-      <input type="text" id="description" required />
-
-      <label for="amount">Amount (£)</label>
-      <input type="number" id="amount" required />
-
-      <label for="type">Type</label>
-      <select id="type" required>
-        <option value="">Select</option>
-        <option value="Deposit">Deposit</option>
-        <option value="Withdrawal">Withdrawal</option>
-        <option value="Profit">Profit</option>
-        <option value="Loss">Loss</option>
+    <form id="expense-form">
+      <input type="date" id="date" required />
+      <input type="text" id="offer" placeholder="Offer Name" required />
+      <select id="status">
+        <option value="Deposited">Deposited</option>
+        <option value="In Progress">In Progress</option>
+        <option value="Completed">Completed</option>
       </select>
-
-      <button type="submit">Add Expense</button>
+      <input type="number" id="deposit" placeholder="Deposit Amount (£)" step="0.01" />
+      <input type="number" id="backOdds" placeholder="Back Odds" step="0.01" />
+      <input type="number" id="layOdds" placeholder="Lay Odds" step="0.01" />
+      <input type="number" id="layStake" placeholder="Lay Stake (£)" step="0.01" />
+      <input type="number" id="liability" placeholder="Liability (£)" step="0.01" />
+      <input type="number" id="expectedLoss" placeholder="Expected Loss (£)" step="0.01" />
+      <input type="number" id="actualProfit" placeholder="Actual Profit (£)" step="0.01" />
+      <button type="submit" class="btn">Add Entry</button>
     </form>
 
-    <h3>Expense History</h3>
-    <ul id="expense-list"></ul>
+    <div class="summary">
+      <strong>Total Profit:</strong> £<span id="totalProfit">0.00</span> |
+      <strong>Total Loss:</strong> £<span id="totalLoss">0.00</span> |
+      <strong>In Progress:</strong> <span id="inProgressCount">0</span> offers
+    </div>
+
+    <label for="statusFilter">Filter by status:</label>
+    <select id="statusFilter">
+      <option value="all">All</option>
+      <option value="Deposited">Deposited</option>
+      <option value="In Progress">In Progress</option>
+      <option value="Completed">Completed</option>
+    </select>
+
+    <table>
+      <thead>
+        <tr>
+          <th>Date</th>
+          <th>Offer</th>
+          <th>Status</th>
+          <th>Deposit</th>
+          <th>Back Odds</th>
+          <th>Lay Odds</th>
+          <th>Lay Stake</th>
+          <th>Liability</th>
+          <th>Expected Loss</th>
+          <th>Actual Profit</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody id="expenseTableBody"></tbody>
+    </table>
   </main>
+
+  <!-- Firebase Setup -->
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-app.js";
+    import { getFirestore, collection, addDoc, onSnapshot, deleteDoc, doc, updateDoc } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-firestore.js";
+    import { getAuth, signInAnonymously, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-auth.js";
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyD8CRdx5VonpgIivDelnm3H0O8YN8dc38c",
+      authDomain: "unmatchedbetter.firebaseapp.com",
+      projectId: "unmatchedbetter",
+      storageBucket: "unmatchedbetter.firebasestorage.app",
+      messagingSenderId: "706155797600",
+      appId: "1:706155797600:web:5fe4b5711b204beeddb705",
+      measurementId: "G-K3YTJHX1FD"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const db = getFirestore(app);
+    const auth = getAuth();
+
+    let userId = null;
+
+    const form = document.getElementById("expense-form");
+    const tableBody = document.getElementById("expenseTableBody");
+    const statusFilter = document.getElementById("statusFilter");
+    const totalProfitEl = document.getElementById("totalProfit");
+    const totalLossEl = document.getElementById("totalLoss");
+    const inProgressCountEl = document.getElementById("inProgressCount");
+
+    function renderExpenses(snapshot) {
+      tableBody.innerHTML = '';
+      let totalProfit = 0, totalLoss = 0, inProgressCount = 0;
+      snapshot.forEach(docSnap => {
+        const entry = docSnap.data();
+        if (statusFilter.value !== "all" && entry.status !== statusFilter.value) return;
+        const row = document.createElement("tr");
+        row.innerHTML = `
+          <td>${entry.date}</td>
+          <td>${entry.offer}</td>
+          <td>${entry.status}</td>
+          <td>£${entry.deposit}</td>
+          <td>${entry.backOdds}</td>
+          <td>${entry.layOdds}</td>
+          <td>£${entry.layStake}</td>
+          <td>£${entry.liability}</td>
+          <td>£${entry.expectedLoss}</td>
+          <td>£${entry.actualProfit}</td>
+          <td>
+            <button class="btn" onclick="editEntry('${docSnap.id}')">Edit</button>
+            <button class="btn btn-danger" onclick="deleteEntry('${docSnap.id}')">Delete</button>
+          </td>
+        `;
+        tableBody.appendChild(row);
+        totalProfit += parseFloat(entry.actualProfit || 0);
+        totalLoss += parseFloat(entry.expectedLoss || 0);
+        if (entry.status === "In Progress") inProgressCount++;
+      });
+      totalProfitEl.textContent = totalProfit.toFixed(2);
+      totalLossEl.textContent = totalLoss.toFixed(2);
+      inProgressCountEl.textContent = inProgressCount;
+    }
+
+    function loadExpenses() {
+      const expensesRef = collection(db, "users", userId, "expenses");
+      onSnapshot(expensesRef, renderExpenses);
+    }
+
+    form.addEventListener("submit", async (e) => {
+      e.preventDefault();
+      const data = {
+        date: document.getElementById("date").value,
+        offer: document.getElementById("offer").value,
+        status: document.getElementById("status").value,
+        deposit: parseFloat(document.getElementById("deposit").value || 0),
+        backOdds: parseFloat(document.getElementById("backOdds").value || 0),
+        layOdds: parseFloat(document.getElementById("layOdds").value || 0),
+        layStake: parseFloat(document.getElementById("layStake").value || 0),
+        liability: parseFloat(document.getElementById("liability").value || 0),
+        expectedLoss: parseFloat(document.getElementById("expectedLoss").value || 0),
+        actualProfit: parseFloat(document.getElementById("actualProfit").value || 0),
+      };
+      await addDoc(collection(db, "users", userId, "expenses"), data);
+      form.reset();
+    });
+
+    window.deleteEntry = async (id) => {
+      await deleteDoc(doc(db, "users", userId, "expenses", id));
+    };
+
+    window.editEntry = async (id) => {
+      const ref = doc(db, "users", userId, "expenses", id);
+      const snapshot = await getDoc(ref);
+      const data = snapshot.data();
+      document.getElementById("date").value = data.date;
+      document.getElementById("offer").value = data.offer;
+      document.getElementById("status").value = data.status;
+      document.getElementById("deposit").value = data.deposit;
+      document.getElementById("backOdds").value = data.backOdds;
+      document.getElementById("layOdds").value = data.layOdds;
+      document.getElementById("layStake").value = data.layStake;
+      document.getElementById("liability").value = data.liability;
+      document.getElementById("expectedLoss").value = data.expectedLoss;
+      document.getElementById("actualProfit").value = data.actualProfit;
+
+      await deleteEntry(id); // We'll re-add it as an update
+    };
+
+    statusFilter.addEventListener("change", loadExpenses);
+
+    onAuthStateChanged(auth, async (user) => {
+      if (user) {
+        userId = user.uid;
+        loadExpenses();
+      } else {
+        await signInAnonymously(auth);
+      }
+    });
+  </script>
 </body>
 </html>
